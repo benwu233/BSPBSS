@@ -1,0 +1,21 @@
+Package: BSPBSS
+Title: Bayesian Spatial Blind Source Separation via Thresholded Gaussian Process
+Version: 1.0.0
+Authors@R: c( person("Ben", "Wu", 
+              email = "wuben1682000@gmail.com", 
+              role = c("aut", "cre")),
+              person("Ying", "Guo",
+              email = "yguo2@emory.edu",
+              role = "aut"),
+              person("Jian", "Kang",
+              email = "jiankang@umich.edu",
+              role = "aut") )
+Description: Gibbs sampling for Bayesian spatial blind source separation with thresholded Gaussian process priors.
+Depends: R (>= 3.4.0), movMF
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.0.2
+LinkingTo: Rcpp, RcppParallel, RcppArmadillo
+Imports: rstiefel, Rcpp, RcppParallel, RcppArmadillo, ica, glmnet, lattice, grDevices, gplots,BayesGPfit
+SystemRequirements: GNU make
