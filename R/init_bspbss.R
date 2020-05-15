@@ -6,7 +6,7 @@
 #' @param xgrid Cordinate matrix with p0 rows (voxel) and d columns (dimension). p0 >= p.
 #' @param mask Logical vector of length p0, with p elements being equal to 1 and p0-p elements being equal to 0.
 #' @param q Number of latent sources.
-#' @param dens The density level (between 0 and 1) of the initial values of latent sources.
+#' @param dens The initial density level (between 0 and 1) of the latent sources.
 #' @param ker_par 2-dimensional vector (a,b) with a>0, b>0, specifing the parameters in the modified exponetial squared kernel.
 #' @param num_eigen Number of the eigen functions.
 #' @param noise Gaussian noise added to the initial latent sources, with mean 0 and standard deviation being noise * sd(S0),
