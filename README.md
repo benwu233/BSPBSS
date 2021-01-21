@@ -12,11 +12,10 @@ Process.
 
 ## Installation
 
-You can install the released version of nlss from Github with:
+Install the released version of nlss from Github with:
 
 ``` r
-library(devtools)
-install_github("benwu233/BSPBSS")
+devtools::install_github("benwu233/BSPBSS")
 ```
 
 ## Example
