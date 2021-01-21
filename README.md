@@ -30,7 +30,7 @@ library(BSPBSS)
 sim = sim_2Dimage_ICA(length = 30, sigma = 5e-4, n = 20, smooth = 0)
 
 #generate initial values for mcmc.
-ini = init_bspbss(sim$X, xgrid = sim$xgrid, q = 3,dens= 0.5,kernel="gaussian", ker_par = c(0.1,10), num_eigen = 50 )
+ini = init_bspbss(sim$X, xgrid = sim$xgrid, mask = rep(1,nrow(sim$xgrid)), q = 3,dens= 0.5,kernel="gaussian", ker_par = c(0.1,10), num_eigen = 50 )
 
 #mcmc
 res = mcmc_bspbss(sim$X,ini$init,ini$prior,ini$kernel,ep=0.5,lr = 0.1,decay = 0.1,subsample_n = 0.5, subsample_p = 0.5,n.iter = 5000,n.burn_in = 3000,thin = 10,show_step = 1000)
