@@ -20,7 +20,7 @@
 #' @export
 #'
 #' @exampless
-mcmc_bspbss = function(X, init,prior,kernel,ep = 0.5,lr = 0.1,subsample_n,subsample_p,n.iter,n.burn_in,thin=1,show_step){
+mcmc_bspbss = function(X, init,prior,kernel,ep = 0.5,lr = 0.1, decay = 0.1, subsample_n,subsample_p,n.iter,n.burn_in,thin=1,show_step){
 
   sigma0 = apply(X - init$A%*%init$S,2,var)
 
@@ -33,7 +33,7 @@ mcmc_bspbss = function(X, init,prior,kernel,ep = 0.5,lr = 0.1,subsample_n,subsam
   lr0 = lr / nrow(X) / ncol(X)
 
   out = mcmc_bspbss_c(X, A, b, tau, sigma0, zeta, subsample_n, subsample_p, prior, kernel$psi, kernel$lambda,
-                          ep,lr0, n.iter,n.burn_in,thin, show_step)
+                          ep,lr0, decay, n.iter,n.burn_in,thin, show_step)
 
   return(out)
 }

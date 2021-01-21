@@ -12,6 +12,7 @@ mcmc_bspbss(
   kernel,
   ep = 0.5,
   lr = 0.1,
+  decay = 0.1,
   subsample_n,
   subsample_p,
   n.iter,
@@ -23,11 +24,15 @@ mcmc_bspbss(
 \arguments{
 \item{X}{Data matrix with n rows (sample) and p columns (voxel).}
 
-\item{init}{List of initial values, see \code{init_TGP}.}
+\item{init}{List of initial values, see \code{init_mcmc}.}
 
-\item{prior}{List of priors, see \code{init_TGP}.}
+\item{prior}{List of priors, see \code{init_mcmc}.}
 
 \item{kernel}{List including eigenvalues and eigenfunctions of the kernel, see \code{init_TGP}.}
+
+\item{ep}{Approximation parameter.}
+
+\item{lr}{Per-batch learning rate.}
 
 \item{subsample_n}{Size of a mini-batch for samples.}
 
@@ -35,9 +40,9 @@ mcmc_bspbss(
 
 \item{n.iter}{Total iterations in MCMC.}
 
-\item{n.burn_in}{Interations being considered as burn-in.}
+\item{n.burn_in}{Number of burn-in.}
 
-\item{thin}{The thining interval.}
+\item{thin}{Thining interval.}
 
 \item{show_step}{Frequency for printing the current number of iterations.}
 }

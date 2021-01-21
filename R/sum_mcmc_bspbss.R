@@ -34,7 +34,7 @@ sum_mcmc_bspbss = function(res, X, kernel, start = 1, end = 100, select_prob = 0
   out$zeta = mean(res$zeta)
   out$sigma = apply(res$sigma,1,mean)
   out$loglik = tmp$loglik
-  out$Slist =tmp$Slist
+  out$Slist = tmp$Slist
 
   return(out)
 }

@@ -28,7 +28,7 @@ output_nii = function(X,nii,xgrid,mask, filename, std=TRUE){
     X0 = X
   }
 
-  out_S = array(NaN, dim = c(dim(nii)[1], dim(nii)[2], dim(nii)[3], nrow(X)))
+  out_S = array(0, dim = c(dim(nii)[1], dim(nii)[2], dim(nii)[3], nrow(X)))
 
   tag = 1
 
@@ -39,7 +39,7 @@ output_nii = function(X,nii,xgrid,mask, filename, std=TRUE){
     }
   }
 
-  copyNIfTIHeader(img = nii, arr = out_S)
+  copyNIfTIHeader(img = nii, arr = out_S,drop = FALSE)
 
   writeNIfTI(out_S,filename = filename)
 

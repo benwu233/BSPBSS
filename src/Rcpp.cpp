@@ -9,6 +9,138 @@ using namespace Rcpp;
 // [[Rcpp::depends(RcppArmadillo)]]
 
 //[[Rcpp::export]]
+arma::mat disM(arma::mat xgrid, arma::vec ind){
+
+  int p = xgrid.n_rows;
+  int d = xgrid.n_cols;
+  int I = ind.n_elem;
+  int ii = 0;
+  double tmp = 0;
+  arma::mat out(I,p);
+
+  for(int i=0; i < I; i++){
+    for(int j=0; j < p; j++){
+      out(i,j) = 0;
+    }
+  }
+
+  for(int i=0; i < I; i++){
+    ii = ind[i];
+    for(int j=0; j < p; j++){
+      for(int k=0; k < d; k++){
+        tmp = xgrid(ii,k) - xgrid(j,k);
+        out(i,j) += tmp * tmp ;
+      }
+    }
+  }
+
+  return out;
+}
+
+
+//[[Rcpp::export]]
+arma::mat disM_full(arma::mat xgrid){
+
+  int p = xgrid.n_rows;
+  int d = xgrid.n_cols;
+  double tmp = 0;
+  arma::mat out(p,p);
+
+  for(int i=0; i < p; i++){
+    for(int j=i; j < p; j++){
+      out(i,j) = 0;
+      for(int k=0; k < d; k++){
+        tmp = xgrid(i,k) - xgrid(j,k);
+        out(i,j) += tmp * tmp ;
+      }
+      out(j,i) = out(i,j);
+    }
+  }
+
+  return out;
+}
+
+//[[Rcpp::export]]
+arma::vec samp_cov(arma::mat X, arma::mat xgrid, arma::vec ind, int n){
+  int n0 = ind.n_elem;
+
+  int p = xgrid.n_rows;
+  int m = X.n_rows;
+
+  arma::vec out;
+  arma::vec len0;
+  arma::mat meanX1;
+  arma::mat meanX2;
+
+  out.zeros(n);
+  len0.zeros(n);
+  meanX1.zeros(m,n);
+  meanX2.zeros(m,n);
+
+
+  int tag = 0;
+  for(int j = 0; j < p; j++){
+    for(int i = 0; i <= j; i++){
+      meanX1.col(ind[tag]) += X.col(i);
+      meanX2.col(ind[tag]) += X.col(j);
+      len0[ind[tag]]++;
+      tag++;
+    }
+  }
+
+
+  for(int i = 0; i < n; i++){
+    meanX1.col(i) = meanX1.col(i)/len0[i];
+    meanX2.col(i) = meanX2.col(i)/len0[i];
+  }
+
+  tag = 0;
+  for(int j = 0; j < p; j++){
+    for(int i = 0; i < j; i++){
+      for(int k = 0; k < m; k++){
+        out(ind[tag]) += ( X(k,i) - meanX1(k,ind[tag]) ) * ( X(k,j) - meanX2(k,ind[tag]));
+      }
+      tag++;
+    }
+  }
+
+
+
+  for(int i = 0; i < n; i++){
+    out[i] = out[i]/len0[i]/m;
+  }
+
+
+
+  return out;
+
+}
+
+
+//[[Rcpp::export]]
+arma::mat disM_full0(arma::mat xgrid,double rho){
+
+  int p = xgrid.n_rows;
+  int d = xgrid.n_cols;
+  double tmp = 0;
+  arma::mat out(p,p);
+
+  for(int i=0; i < p; i++){
+    for(int j=i; j < p; j++){
+      out(i,j) = 0;
+      for(int k=0; k < d; k++){
+        tmp = xgrid(i,k) - xgrid(j,k);
+        out(i,j) += tmp * tmp ;
+      }
+      out(j,i) = out(i,j);
+    }
+  }
+
+  return sqrt(out)/rho;
+}
+
+
+//[[Rcpp::export]]
 arma::mat cal_sumb(arma::mat &b, arma::mat &psi){
   return  (b * psi);
 }
@@ -144,10 +276,10 @@ arma::mat dL_b_sub(arma::mat &b, arma::mat &X,arma::mat &A,
         for(int i = 0; i < sizen; i++){
           X_core_sub(i,v) -= tau * A_sub(i,j) * sumb_sub(j,v);
         }
-        par(j,v) = ( tmp_sub_c(j,v)  + 1  ) / sigma_sub[v];
+        par(j,v) = ( tmp_sub_c(j,v)  + 1  ) / sigma_sub[v] ;
       }
       else{
-        par(j,v) = ( tmp_sub_c(j,v) ) / sigma_sub[v];
+        par(j,v) = ( tmp_sub_c(j,v) ) / sigma_sub[v] ;
       }
     }
   }
@@ -168,7 +300,7 @@ arma::mat dL_b_sub(arma::mat &b, arma::mat &X,arma::mat &A,
 //[[Rcpp::export]]
 void GP_update_b_SGHMC(arma::mat &b, arma::mat &X, arma::mat &A, arma::mat &S, arma::vec &sigma,
                        arma::vec &lambda, double &tau, arma::mat &psi, double &epsilon,
-                       arma::mat &sumb,  double &zeta, arma::mat &X_core, double eta,
+                       arma::mat &sumb,  double &zeta, arma::mat &X_core, double eta, double alpha,
                        int sizep, int sizen, int m, int itr, arma::vec &nu){
 
 
@@ -182,7 +314,7 @@ void GP_update_b_SGHMC(arma::mat &b, arma::mat &X, arma::mat &A, arma::mat &S, a
 
   old_b = b;
 
-  double alpha = 0.1;
+  //double alpha = 0.1;
 
   if( (itr-1)%50==0) {
     nu = rnorm(q*L) * sqrt(eta);
@@ -200,6 +332,7 @@ void GP_update_b_SGHMC(arma::mat &b, arma::mat &X, arma::mat &A, arma::mat &S, a
 
     dL = dL_b_sub(b, X, A, lambda, tau, psi, epsilon, zeta, sigma, sizep,sizen);
 
+
     for(int j = 0; j < q; j++){
       for(int l = 0; l < L; l++){
         loc = j+l*q;
@@ -209,6 +342,8 @@ void GP_update_b_SGHMC(arma::mat &b, arma::mat &X, arma::mat &A, arma::mat &S, a
     }
 
   }
+
+
 
   sumb = cal_sumb(b, psi);
   S = cal_S(A, sumb, zeta, tau);
@@ -267,6 +402,7 @@ void GP_update_A(arma::mat &A, arma::vec &prior, arma::mat &X_core, arma::mat &X
     newA_j = as<arma::vec>( rrmovMF(1,par,1) ) * sqrt(1.0*n);
     A.col(j) = newA_j ;
   }
+
   X_core = cal_core(X,A,S);
 }
 
@@ -292,6 +428,7 @@ void GP_update_sigma(arma::vec &sigma, arma::mat &X_core, arma::vec &prior_sigma
 }
 
 
+
 //[[Rcpp::export]]
 double log_p_zeta_Gaussian(double zeta, arma::mat &X_core, arma::vec &sigma, arma::vec &prior){
 
@@ -301,6 +438,7 @@ double log_p_zeta_Gaussian(double zeta, arma::mat &X_core, arma::vec &sigma, arm
 
   return out;
 }
+
 
 //[[Rcpp::export]]
 void GP_update_zeta(double &zeta, double &tau, arma::mat &sumb, arma::mat &X_core, arma::vec &sigma,
@@ -339,6 +477,7 @@ void GP_update_zeta(double &zeta, double &tau, arma::mat &sumb, arma::mat &X_cor
     else{
       utest = 0;
     }
+
   }
 
   if(utest ==1){
@@ -430,7 +569,7 @@ double loglk(arma::mat &X, arma::mat &A, arma::mat &S, arma::vec &sigma){
 //[[Rcpp::export]]
 List mcmc_bspbss_c(arma::mat &X, arma::mat &A, arma::mat &b,
                    double tau, arma::vec &sigma, double zeta, double subsample_n, double subsample_p,
-                   List prior, arma::mat &psi, arma::vec &lambda, double epsilon, double lr,
+                   List prior, arma::mat &psi, arma::vec &lambda, double epsilon, double lr, double decay,
                    int MClength, int burn_in, int thin, int show_step){
 
   int p = X.n_cols;
@@ -439,6 +578,9 @@ List mcmc_bspbss_c(arma::mat &X, arma::mat &A, arma::mat &b,
   int L = lambda.n_elem;
   int sizep = subsample_p * p;
   int sizen = subsample_n * n;
+
+  auto t1 = std::chrono::system_clock::now();
+  std::time_t t2 = std::chrono::system_clock::to_time_t(t1);
 
   double stepsize_zeta = 0;
   double stepsize_tau = 0;
@@ -465,7 +607,6 @@ List mcmc_bspbss_c(arma::mat &X, arma::mat &A, arma::mat &b,
   arma::vec prior_sigma = as<arma::vec>( prior["sigma"]);
   arma::vec prior_zeta = as<arma::vec>( prior["zeta"]);
 
-
   int tag =  0;
 
   sumb = cal_sumb(b,psi);
@@ -480,18 +621,21 @@ List mcmc_bspbss_c(arma::mat &X, arma::mat &A, arma::mat &b,
     stepsize_tau = tau * 0.01;
 
     GP_update_zeta(zeta,tau, sumb, X_core, sigma, X, A, S, stepsize_zeta,prior_zeta);
+    //std::cout << "zeta" << std::endl;
 
     GP_update_tau(tau,zeta, sumb, X_core, sigma, X, A, S, stepsize_tau,prior_tau);
-
+    //std::cout << "tau" << std::endl;
     GP_update_A(A, prior_A, X_core,X, S, sigma,sizep);
-
+    //std::cout << "A" << std::endl;
     GP_update_sigma(sigma, X_core, prior_sigma);
-
-    GP_update_b_SGHMC(b, X, A,S, sigma, lambda, tau, psi, epsilon, sumb, zeta, X_core,lr,sizep,sizen,10,itr,nu);
-
+    //std::cout << "sigma" << std::endl;
+    GP_update_b_SGHMC(b, X, A,S, sigma, lambda, tau, psi, epsilon, sumb, zeta, X_core,lr,decay,sizep,sizen,10,itr,nu);
+    //std::cout << "b" << std::endl;
 
     if(itr%show_step==0){
-       std::cout << "iter " << itr << std::endl;
+       t1 = std::chrono::system_clock::now();
+       t2 = std::chrono::system_clock::to_time_t(t1);
+       std::cout << "iter " << itr << " " << std::ctime(&t2) << std::endl;
     }
 
 

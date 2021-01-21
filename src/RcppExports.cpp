@@ -6,6 +6,55 @@
 
 using namespace Rcpp;
 
+// disM
+arma::mat disM(arma::mat xgrid, arma::vec ind);
+RcppExport SEXP _BSPBSS_disM(SEXP xgridSEXP, SEXP indSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type xgrid(xgridSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type ind(indSEXP);
+    rcpp_result_gen = Rcpp::wrap(disM(xgrid, ind));
+    return rcpp_result_gen;
+END_RCPP
+}
+// disM_full
+arma::mat disM_full(arma::mat xgrid);
+RcppExport SEXP _BSPBSS_disM_full(SEXP xgridSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type xgrid(xgridSEXP);
+    rcpp_result_gen = Rcpp::wrap(disM_full(xgrid));
+    return rcpp_result_gen;
+END_RCPP
+}
+// samp_cov
+arma::vec samp_cov(arma::mat X, arma::mat xgrid, arma::vec ind, int n);
+RcppExport SEXP _BSPBSS_samp_cov(SEXP XSEXP, SEXP xgridSEXP, SEXP indSEXP, SEXP nSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type X(XSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type xgrid(xgridSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type ind(indSEXP);
+    Rcpp::traits::input_parameter< int >::type n(nSEXP);
+    rcpp_result_gen = Rcpp::wrap(samp_cov(X, xgrid, ind, n));
+    return rcpp_result_gen;
+END_RCPP
+}
+// disM_full0
+arma::mat disM_full0(arma::mat xgrid, double rho);
+RcppExport SEXP _BSPBSS_disM_full0(SEXP xgridSEXP, SEXP rhoSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type xgrid(xgridSEXP);
+    Rcpp::traits::input_parameter< double >::type rho(rhoSEXP);
+    rcpp_result_gen = Rcpp::wrap(disM_full0(xgrid, rho));
+    return rcpp_result_gen;
+END_RCPP
+}
 // cal_sumb
 arma::mat cal_sumb(arma::mat& b, arma::mat& psi);
 RcppExport SEXP _BSPBSS_cal_sumb(SEXP bSEXP, SEXP psiSEXP) {
@@ -92,8 +141,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // GP_update_b_SGHMC
-void GP_update_b_SGHMC(arma::mat& b, arma::mat& X, arma::mat& A, arma::mat& S, arma::vec& sigma, arma::vec& lambda, double& tau, arma::mat& psi, double& epsilon, arma::mat& sumb, double& zeta, arma::mat& X_core, double eta, int sizep, int sizen, int m, int itr, arma::vec& nu);
-RcppExport SEXP _BSPBSS_GP_update_b_SGHMC(SEXP bSEXP, SEXP XSEXP, SEXP ASEXP, SEXP SSEXP, SEXP sigmaSEXP, SEXP lambdaSEXP, SEXP tauSEXP, SEXP psiSEXP, SEXP epsilonSEXP, SEXP sumbSEXP, SEXP zetaSEXP, SEXP X_coreSEXP, SEXP etaSEXP, SEXP sizepSEXP, SEXP sizenSEXP, SEXP mSEXP, SEXP itrSEXP, SEXP nuSEXP) {
+void GP_update_b_SGHMC(arma::mat& b, arma::mat& X, arma::mat& A, arma::mat& S, arma::vec& sigma, arma::vec& lambda, double& tau, arma::mat& psi, double& epsilon, arma::mat& sumb, double& zeta, arma::mat& X_core, double eta, double alpha, int sizep, int sizen, int m, int itr, arma::vec& nu);
+RcppExport SEXP _BSPBSS_GP_update_b_SGHMC(SEXP bSEXP, SEXP XSEXP, SEXP ASEXP, SEXP SSEXP, SEXP sigmaSEXP, SEXP lambdaSEXP, SEXP tauSEXP, SEXP psiSEXP, SEXP epsilonSEXP, SEXP sumbSEXP, SEXP zetaSEXP, SEXP X_coreSEXP, SEXP etaSEXP, SEXP alphaSEXP, SEXP sizepSEXP, SEXP sizenSEXP, SEXP mSEXP, SEXP itrSEXP, SEXP nuSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< arma::mat& >::type b(bSEXP);
@@ -109,12 +158,13 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double& >::type zeta(zetaSEXP);
     Rcpp::traits::input_parameter< arma::mat& >::type X_core(X_coreSEXP);
     Rcpp::traits::input_parameter< double >::type eta(etaSEXP);
+    Rcpp::traits::input_parameter< double >::type alpha(alphaSEXP);
     Rcpp::traits::input_parameter< int >::type sizep(sizepSEXP);
     Rcpp::traits::input_parameter< int >::type sizen(sizenSEXP);
     Rcpp::traits::input_parameter< int >::type m(mSEXP);
     Rcpp::traits::input_parameter< int >::type itr(itrSEXP);
     Rcpp::traits::input_parameter< arma::vec& >::type nu(nuSEXP);
-    GP_update_b_SGHMC(b, X, A, S, sigma, lambda, tau, psi, epsilon, sumb, zeta, X_core, eta, sizep, sizen, m, itr, nu);
+    GP_update_b_SGHMC(b, X, A, S, sigma, lambda, tau, psi, epsilon, sumb, zeta, X_core, eta, alpha, sizep, sizen, m, itr, nu);
     return R_NilValue;
 END_RCPP
 }
@@ -213,8 +263,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // mcmc_bspbss_c
-List mcmc_bspbss_c(arma::mat& X, arma::mat& A, arma::mat& b, double tau, arma::vec& sigma, double zeta, double subsample_n, double subsample_p, List prior, arma::mat& psi, arma::vec& lambda, double epsilon, double lr, int MClength, int burn_in, int thin, int show_step);
-RcppExport SEXP _BSPBSS_mcmc_bspbss_c(SEXP XSEXP, SEXP ASEXP, SEXP bSEXP, SEXP tauSEXP, SEXP sigmaSEXP, SEXP zetaSEXP, SEXP subsample_nSEXP, SEXP subsample_pSEXP, SEXP priorSEXP, SEXP psiSEXP, SEXP lambdaSEXP, SEXP epsilonSEXP, SEXP lrSEXP, SEXP MClengthSEXP, SEXP burn_inSEXP, SEXP thinSEXP, SEXP show_stepSEXP) {
+List mcmc_bspbss_c(arma::mat& X, arma::mat& A, arma::mat& b, double tau, arma::vec& sigma, double zeta, double subsample_n, double subsample_p, List prior, arma::mat& psi, arma::vec& lambda, double epsilon, double lr, double decay, int MClength, int burn_in, int thin, int show_step);
+RcppExport SEXP _BSPBSS_mcmc_bspbss_c(SEXP XSEXP, SEXP ASEXP, SEXP bSEXP, SEXP tauSEXP, SEXP sigmaSEXP, SEXP zetaSEXP, SEXP subsample_nSEXP, SEXP subsample_pSEXP, SEXP priorSEXP, SEXP psiSEXP, SEXP lambdaSEXP, SEXP epsilonSEXP, SEXP lrSEXP, SEXP decaySEXP, SEXP MClengthSEXP, SEXP burn_inSEXP, SEXP thinSEXP, SEXP show_stepSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -231,11 +281,12 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< arma::vec& >::type lambda(lambdaSEXP);
     Rcpp::traits::input_parameter< double >::type epsilon(epsilonSEXP);
     Rcpp::traits::input_parameter< double >::type lr(lrSEXP);
+    Rcpp::traits::input_parameter< double >::type decay(decaySEXP);
     Rcpp::traits::input_parameter< int >::type MClength(MClengthSEXP);
     Rcpp::traits::input_parameter< int >::type burn_in(burn_inSEXP);
     Rcpp::traits::input_parameter< int >::type thin(thinSEXP);
     Rcpp::traits::input_parameter< int >::type show_step(show_stepSEXP);
-    rcpp_result_gen = Rcpp::wrap(mcmc_bspbss_c(X, A, b, tau, sigma, zeta, subsample_n, subsample_p, prior, psi, lambda, epsilon, lr, MClength, burn_in, thin, show_step));
+    rcpp_result_gen = Rcpp::wrap(mcmc_bspbss_c(X, A, b, tau, sigma, zeta, subsample_n, subsample_p, prior, psi, lambda, epsilon, lr, decay, MClength, burn_in, thin, show_step));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -254,20 +305,24 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_BSPBSS_disM", (DL_FUNC) &_BSPBSS_disM, 2},
+    {"_BSPBSS_disM_full", (DL_FUNC) &_BSPBSS_disM_full, 1},
+    {"_BSPBSS_samp_cov", (DL_FUNC) &_BSPBSS_samp_cov, 4},
+    {"_BSPBSS_disM_full0", (DL_FUNC) &_BSPBSS_disM_full0, 2},
     {"_BSPBSS_cal_sumb", (DL_FUNC) &_BSPBSS_cal_sumb, 2},
     {"_BSPBSS_cal_S", (DL_FUNC) &_BSPBSS_cal_S, 4},
     {"_BSPBSS_cal_S_new", (DL_FUNC) &_BSPBSS_cal_S_new, 3},
     {"_BSPBSS_cal_core", (DL_FUNC) &_BSPBSS_cal_core, 3},
     {"_BSPBSS_sum_core", (DL_FUNC) &_BSPBSS_sum_core, 2},
     {"_BSPBSS_dL_b_sub", (DL_FUNC) &_BSPBSS_dL_b_sub, 11},
-    {"_BSPBSS_GP_update_b_SGHMC", (DL_FUNC) &_BSPBSS_GP_update_b_SGHMC, 18},
+    {"_BSPBSS_GP_update_b_SGHMC", (DL_FUNC) &_BSPBSS_GP_update_b_SGHMC, 19},
     {"_BSPBSS_GP_update_A", (DL_FUNC) &_BSPBSS_GP_update_A, 7},
     {"_BSPBSS_GP_update_sigma", (DL_FUNC) &_BSPBSS_GP_update_sigma, 3},
     {"_BSPBSS_log_p_zeta_Gaussian", (DL_FUNC) &_BSPBSS_log_p_zeta_Gaussian, 4},
     {"_BSPBSS_GP_update_zeta", (DL_FUNC) &_BSPBSS_GP_update_zeta, 10},
     {"_BSPBSS_GP_update_tau", (DL_FUNC) &_BSPBSS_GP_update_tau, 10},
     {"_BSPBSS_loglk", (DL_FUNC) &_BSPBSS_loglk, 4},
-    {"_BSPBSS_mcmc_bspbss_c", (DL_FUNC) &_BSPBSS_mcmc_bspbss_c, 17},
+    {"_BSPBSS_mcmc_bspbss_c", (DL_FUNC) &_BSPBSS_mcmc_bspbss_c, 18},
     {"_BSPBSS_smoos", (DL_FUNC) &_BSPBSS_smoos, 3},
     {NULL, NULL, 0}
 };

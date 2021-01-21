@@ -2,7 +2,7 @@
 #'
 #' @description This function transforms NIfTI file(s) into a data matrix.
 #'
-#' @param nii_file_list A list of paths to NIfTI file(s).
+#' @param nii_file_list A list of NIfTI file(s).
 #' @param mask_file Path to the mask file.
 #'
 #' @return

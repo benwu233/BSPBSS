@@ -21,5 +21,5 @@ output_nii(X, nii, xgrid, mask, filename, std = TRUE)
 
 }
 \description{
-This function saves a data matrix to a NIfTI file.
+This function saves a data matrix into a NIfTI file.
 }

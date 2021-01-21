@@ -4,18 +4,10 @@
 \alias{sum_mcmc_bspbss}
 \title{Summarization of the MCMC result.}
 \usage{
-sum_mcmc_bspbss(
-  res,
-  X,
-  kernel,
-  start = 1,
-  end = 100,
-  select_p = 0.8,
-  dens_th = 0.01
-)
+sum_mcmc_bspbss(res, X, kernel, start = 1, end = 100, select_prob = 0.8)
 }
 \arguments{
-\item{res}{List including MCMC samples, which can be obtained from function \code{mcmc_TGP}}
+\item{res}{List including MCMC samples, which can be obtained from function \code{mcmc_bspbss}}
 
 \item{X}{Original data matrix.}
 
@@ -23,7 +15,7 @@ sum_mcmc_bspbss(
 
 \item{end}{End point of the iterations being summarized.}
 
-\item{select_p}{Lower bound of the posterior inclusion probability required when summarizing
+\item{select_prob}{Lower bound of the posterior inclusion probability required when summarizing
 the samples of latent sources.}
 }
 \value{
@@ -39,5 +31,5 @@ List that contains the following terms:
 }
 }
 \description{
-The function summarizes the MCMC results obtained from \code{mcmc_TGP}.
+The function summarizes the MCMC results obtained from \code{mcmc_bspbss}.
 }
