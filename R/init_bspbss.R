@@ -71,7 +71,7 @@ init_bspbss= function(X, xgrid,  mask = rep(1,nrow(xgrid)), q = 2, dens = 0.5, k
 
     xgrid1 = xgrid0[mask==1,]
 
-    km = kmeans(xgrid1, centers = L)
+    km = kmeans(xgrid1, centers = L,iter.max = 100)
     ind0 = rep(0,L)
     for(l in 1:L){
       ind1 = which(km$cluster==l)
@@ -206,10 +206,11 @@ init_bspbss= function(X, xgrid,  mask = rep(1,nrow(xgrid)), q = 2, dens = 0.5, k
 fn3 = function(para,sampcov,dist0){
   rho = para[1]
   nu = para[2]
+  sigma = para[3]
   n = length(sampcov)
   out = 0
   for(i in 1:n){
-    out = out + (sampcov[i] - matern(dist0[i]/rho,nu))^2
+    out = out + (sampcov[i] -  matern(dist0[i]/rho,nu))^2
   }
   return(out)
 }
@@ -228,16 +229,50 @@ fn3 = function(para,sampcov,dist0){
 #' @export
 #'
 #' @examples
-init_matern = function(X,xgrid,mask = rep(1,nrow(xgrid)),q=2,thres=0.75){
+init_matern = function(X,xgrid,mask = rep(1,nrow(xgrid)),q=2,thres=0.75,
+                       lower = c(0.01,0.01,0.01), upper = c(1e3,1e3,1e10),
+                       initial_values = c(1.0, 1.0, 1.0)){
 
   xgrid0 = GP.std.grids(xgrid,center=apply(xgrid,2,mean),scale=NULL,max_range=1)
   xgrid1 = xgrid0[mask==1,]
 
-  meanX = apply(abs(X),2,mean)
-  th = quantile(meanX,thres)
-  ind2 = (meanX>th)
+  stdX = X - apply(X,1,mean)
 
-  distMat1 = disM_full(xgrid1[ind2,])
+  for(i in 1:nrow(X)){
+    stdX[i,] = stdX[i,] / sd(stdX[i,])
+  }
+
+  maxX = apply(abs(stdX),2,max)
+  th = quantile(maxX,thres[1])
+
+  ind2 = (maxX>=th)
+
+  para = find_Matern_optim_paras_alldat(t(X[,ind2]),xgrid1[ind2,], lower = lower,upper=upper,initial_values = initial_values)
+
+  return( para)
+
+}
+
+
+init_matern0 = function(X,xgrid,mask = rep(1,nrow(xgrid)),q=2,thres=0.75){
+
+  xgrid0 = GP.std.grids(xgrid,center=apply(xgrid,2,mean),scale=NULL,max_range=1)
+  xgrid1 = xgrid0[mask==1,]
+
+  maxX = apply(abs(X),2,max)
+  th = quantile(maxX,thres[1])
+  th2 = quantile(maxX,thres[2])
+
+
+  ind2 = (maxX>=th)
+  ind3 = (maxX<th2)
+  stdX = X[,ind2] - apply(X[,ind2],1,mean)
+  var0 = mean( apply(stdX,1,var) ) - mean( apply(X[,ind3],1,var) )
+
+  #noise0 = var(as.numeric(X[,maxX<th2]) )/nrow(X)
+  #var0 = (var(as.numeric(X) ) - var(as.numeric(X[,maxX<th2])) )/nrow(X)
+
+  distMat1 = round( disM_full(xgrid1[ind2,]),10)
   distMat_tri = distMat1[upper.tri(distMat1,diag=TRUE)]
   uniqueM = unique(as.numeric(distMat_tri) )
 
@@ -245,18 +280,21 @@ init_matern = function(X,xgrid,mask = rep(1,nrow(xgrid)),q=2,thres=0.75){
 
   ind1 = match(distMat_tri,uniqueM_sorted)
 
-  sampcov = samp_cov(X[,ind2],xgrid1[ind2,], ind1-1, length(uniqueM_sorted))
+  sampcov = samp_cov(stdX,xgrid1[ind2,], ind1-1, length(uniqueM_sorted))
 
-  sampcov = sampcov/sampcov[uniqueM==0]
+  #sampcov = sampcov/sampcov[uniqueM==0]
+  #sampcov = sampcov/var0
+  #sampcov = sampcov /3
+  #sampcov = sampcov * var0
 
-  thr = uniqueM[2]*25
+  thr = uniqueM_sorted[2]*25
 
-  ind3 = which( (uniqueM<=thr)&(uniqueM>=0) )
+  ind3 = which( (uniqueM_sorted<=thr)&(uniqueM_sorted>0) )
 
-  para_est = optim(c(1,5/2),fn3,gr = NULL, sampcov[ind3],uniqueM[ind3],
-                   method = "L-BFGS-B", lower = c(1e-3,1.5),upper = c(1e3,1e2))
+  para_est = optim(c(1,1,1),fn3,gr = NULL, sampcov[ind3],uniqueM_sorted[ind3],method = "L-BFGS-B", lower = c(1e-3,1e-3,1e-10),upper = c(1e2,1e2,1e10))
 
-  return(para_est)
+  return(para_est$par)
 
 }
+
 

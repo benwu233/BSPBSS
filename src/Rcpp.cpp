@@ -2,9 +2,13 @@
 #include <math.h>
 #include <cmath>
 #include <iostream>
+#include <RcppParallel.h>
 #include <RcppArmadillo.h>
+#include <boost/math/special_functions/gamma.hpp>
+
 
 using namespace Rcpp;
+
 
 // [[Rcpp::depends(RcppArmadillo)]]
 
@@ -45,12 +49,12 @@ arma::mat disM_full(arma::mat xgrid){
   int d = xgrid.n_cols;
   double tmp = 0;
   arma::mat out(p,p);
+  out.zeros(p,p);
 
   for(int i=0; i < p; i++){
     for(int j=i; j < p; j++){
-      out(i,j) = 0;
       for(int k=0; k < d; k++){
-        tmp = xgrid(i,k) - xgrid(j,k);
+        tmp = xgrid(j,k) - xgrid(i,k);
         out(i,j) += tmp * tmp ;
       }
       out(j,i) = out(i,j);
@@ -62,6 +66,44 @@ arma::mat disM_full(arma::mat xgrid){
 
 //[[Rcpp::export]]
 arma::vec samp_cov(arma::mat X, arma::mat xgrid, arma::vec ind, int n){
+  int n0 = ind.n_elem;
+
+  int p = xgrid.n_rows;
+  int m = X.n_rows;
+
+  arma::vec out;
+  arma::vec len0;
+  arma::mat meanX1;
+  arma::mat meanX2;
+  int tag = 0;
+
+  out.zeros(n);
+  len0.zeros(n);
+
+  tag = 0;
+  for(int j = 0; j < p; j++){
+    for(int i = 0; i <= j; i++){
+      for(int k = 0; k < m; k++){
+        out(ind[tag]) +=  X(k,i)  *  X(k,j) ;
+      }
+      len0[ind[tag]]++;
+      tag++;
+    }
+  }
+
+  for(int i = 0; i < n; i++){
+    out[i] = out[i]/len0[i]/m;
+  }
+
+
+  return out;
+
+}
+
+
+
+//[[Rcpp::export]]
+arma::vec samp_cov0(arma::mat X, arma::mat xgrid, arma::vec ind, int n){
   int n0 = ind.n_elem;
 
   int p = xgrid.n_rows;

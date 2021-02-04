@@ -13,6 +13,10 @@ samp_cov <- function(X, xgrid, ind, n) {
     .Call('_BSPBSS_samp_cov', PACKAGE = 'BSPBSS', X, xgrid, ind, n)
 }
 
+samp_cov0 <- function(X, xgrid, ind, n) {
+    .Call('_BSPBSS_samp_cov0', PACKAGE = 'BSPBSS', X, xgrid, ind, n)
+}
+
 disM_full0 <- function(xgrid, rho) {
     .Call('_BSPBSS_disM_full0', PACKAGE = 'BSPBSS', xgrid, rho)
 }

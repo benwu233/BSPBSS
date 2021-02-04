@@ -43,6 +43,20 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// samp_cov0
+arma::vec samp_cov0(arma::mat X, arma::mat xgrid, arma::vec ind, int n);
+RcppExport SEXP _BSPBSS_samp_cov0(SEXP XSEXP, SEXP xgridSEXP, SEXP indSEXP, SEXP nSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type X(XSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type xgrid(xgridSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type ind(indSEXP);
+    Rcpp::traits::input_parameter< int >::type n(nSEXP);
+    rcpp_result_gen = Rcpp::wrap(samp_cov0(X, xgrid, ind, n));
+    return rcpp_result_gen;
+END_RCPP
+}
 // disM_full0
 arma::mat disM_full0(arma::mat xgrid, double rho);
 RcppExport SEXP _BSPBSS_disM_full0(SEXP xgridSEXP, SEXP rhoSEXP) {
@@ -308,6 +322,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_BSPBSS_disM", (DL_FUNC) &_BSPBSS_disM, 2},
     {"_BSPBSS_disM_full", (DL_FUNC) &_BSPBSS_disM_full, 1},
     {"_BSPBSS_samp_cov", (DL_FUNC) &_BSPBSS_samp_cov, 4},
+    {"_BSPBSS_samp_cov0", (DL_FUNC) &_BSPBSS_samp_cov0, 4},
     {"_BSPBSS_disM_full0", (DL_FUNC) &_BSPBSS_disM_full0, 2},
     {"_BSPBSS_cal_sumb", (DL_FUNC) &_BSPBSS_cal_sumb, 2},
     {"_BSPBSS_cal_S", (DL_FUNC) &_BSPBSS_cal_S, 4},
