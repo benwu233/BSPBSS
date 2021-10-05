@@ -9,169 +9,6 @@ using namespace Rcpp;
 // [[Rcpp::depends(RcppArmadillo)]]
 
 //[[Rcpp::export]]
-arma::mat disM(arma::mat xgrid, arma::vec ind){
-
-  int p = xgrid.n_rows;
-  int d = xgrid.n_cols;
-  int I = ind.n_elem;
-  int ii = 0;
-  double tmp = 0;
-  arma::mat out(I,p);
-
-  for(int i=0; i < I; i++){
-    for(int j=0; j < p; j++){
-      out(i,j) = 0;
-    }
-  }
-
-  for(int i=0; i < I; i++){
-    ii = ind[i];
-    for(int j=0; j < p; j++){
-      for(int k=0; k < d; k++){
-        tmp = xgrid(ii,k) - xgrid(j,k);
-        out(i,j) += tmp * tmp ;
-      }
-    }
-  }
-
-  return out;
-}
-
-
-//[[Rcpp::export]]
-arma::mat disM_full(arma::mat xgrid){
-
-  int p = xgrid.n_rows;
-  int d = xgrid.n_cols;
-  double tmp = 0;
-  arma::mat out(p,p);
-  out.zeros(p,p);
-
-  for(int i=0; i < p; i++){
-    for(int j=i; j < p; j++){
-      for(int k=0; k < d; k++){
-        tmp = xgrid(j,k) - xgrid(i,k);
-        out(i,j) += tmp * tmp ;
-      }
-      out(j,i) = out(i,j);
-    }
-  }
-
-  return out;
-}
-
-//[[Rcpp::export]]
-arma::vec samp_cov(arma::mat X, arma::mat xgrid, arma::vec ind, int n){
-  int n0 = ind.n_elem;
-
-  int p = xgrid.n_rows;
-  int m = X.n_rows;
-
-  arma::vec out;
-  arma::vec len0;
-  arma::mat meanX1;
-  arma::mat meanX2;
-  int tag = 0;
-
-  out.zeros(n);
-  len0.zeros(n);
-
-  tag = 0;
-  for(int j = 0; j < p; j++){
-    for(int i = 0; i <= j; i++){
-      for(int k = 0; k < m; k++){
-        out(ind[tag]) +=  X(k,i)  *  X(k,j) ;
-      }
-      len0[ind[tag]]++;
-      tag++;
-    }
-  }
-
-  for(int i = 0; i < n; i++){
-    out[i] = out[i]/len0[i]/m;
-  }
-
-  return out;
-}
-
-
-//[[Rcpp::export]]
-arma::vec samp_cov0(arma::mat X, arma::mat xgrid, arma::vec ind, int n){
-  int n0 = ind.n_elem;
-
-  int p = xgrid.n_rows;
-  int m = X.n_rows;
-
-  arma::vec out;
-  arma::vec len0;
-  arma::mat meanX1;
-  arma::mat meanX2;
-
-  out.zeros(n);
-  len0.zeros(n);
-  meanX1.zeros(m,n);
-  meanX2.zeros(m,n);
-
-
-  int tag = 0;
-  for(int j = 0; j < p; j++){
-    for(int i = 0; i <= j; i++){
-      meanX1.col(ind[tag]) += X.col(i);
-      meanX2.col(ind[tag]) += X.col(j);
-      len0[ind[tag]]++;
-      tag++;
-    }
-  }
-
-
-  for(int i = 0; i < n; i++){
-    meanX1.col(i) = meanX1.col(i)/len0[i];
-    meanX2.col(i) = meanX2.col(i)/len0[i];
-  }
-
-  tag = 0;
-  for(int j = 0; j < p; j++){
-    for(int i = 0; i < j; i++){
-      for(int k = 0; k < m; k++){
-        out(ind[tag]) += ( X(k,i) - meanX1(k,ind[tag]) ) * ( X(k,j) - meanX2(k,ind[tag]));
-      }
-      tag++;
-    }
-  }
-
-  for(int i = 0; i < n; i++){
-    out[i] = out[i]/len0[i]/m;
-  }
-
-  return out;
-
-}
-
-
-//[[Rcpp::export]]
-arma::mat disM_full0(arma::mat xgrid,double rho){
-
-  int p = xgrid.n_rows;
-  int d = xgrid.n_cols;
-  double tmp = 0;
-  arma::mat out(p,p);
-
-  for(int i=0; i < p; i++){
-    for(int j=i; j < p; j++){
-      out(i,j) = 0;
-      for(int k=0; k < d; k++){
-        tmp = xgrid(i,k) - xgrid(j,k);
-        out(i,j) += tmp * tmp ;
-      }
-      out(j,i) = out(i,j);
-    }
-  }
-
-  return sqrt(out)/rho;
-}
-
-
-//[[Rcpp::export]]
 arma::mat cal_sumb(arma::mat &b, arma::mat &psi){
   return  (b * psi);
 }
@@ -202,8 +39,6 @@ arma::mat cal_core(arma::mat &X, arma::mat &A, arma::mat &S){
   return (X - A*S);
 }
 
-
-
 //[[Rcpp::export]]
 arma::mat dL_b_sub(arma::mat b, arma::mat X,arma::mat A,
                        arma::vec lambda, arma::mat psi, double epsilon,
@@ -219,7 +54,6 @@ arma::mat dL_b_sub(arma::mat b, arma::mat X,arma::mat A,
 
   double tmp = 0;
   double tmp2 = 0;
-  double tmp3 = 0;
   double ep2 = 0;
 
   tmp2 = epsilon / 3.1415926535897932;
@@ -268,8 +102,6 @@ arma::mat dL_b_sub(arma::mat b, arma::mat X,arma::mat A,
 
   tmp_sub_c = tmp2 * (1 / tmp_sub_a - 1 / tmp_sub_b + 1e-20) % sumb_sub;
 
-  int count1 = 0;
-  int count2 = 0;
   for(int v = 0; v < sizep; v++){
     for(int j = 0; j < q; j++){
       if( (sumb_sub(j,v) > zeta)||(sumb_sub(j,v) < -zeta) ){
@@ -296,8 +128,6 @@ arma::mat dL_b_sub(arma::mat b, arma::mat X,arma::mat A,
   return out2;
 }
 
-
-
 //[[Rcpp::export]]
 void GP_update_b_SGHMC(arma::mat &b, arma::mat &X, arma::mat &A, arma::mat &S, arma::vec &sigma,
                        arma::vec &lambda,  arma::mat &psi, double &epsilon,
@@ -308,8 +138,6 @@ void GP_update_b_SGHMC(arma::mat &b, arma::mat &X, arma::mat &A, arma::mat &S, a
   int q = A.n_cols;
   int L = lambda.n_elem;
   int loc = 0;
-
-  double tmp2 = 0;
 
   arma::mat dl(q,L);
 
