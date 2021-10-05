@@ -6,7 +6,7 @@ ICA_imax = function(X,q){
   IC_initial = ica0$S
   A_mt =  ica0$M
 
-  D = diag(apply(A_mt,2,'Norm_vec'))
+  D = diag(apply(A_mt,2,'norm_vec'))
 
   A_0 = A_mt%*%solve(D)
   S_0 = t(IC_initial%*%t(D))
@@ -18,6 +18,6 @@ ICA_imax = function(X,q){
   return(out)
 }
 
-Norm_vec = function(v){
+norm_vec = function(v){
   return(sqrt(sum(v^2)))
 }

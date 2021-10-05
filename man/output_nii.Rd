@@ -4,7 +4,7 @@
 \alias{output_nii}
 \title{Write a NIfTI file.}
 \usage{
-output_nii(X, nii, xgrid, mask, filename, std = TRUE)
+output_nii(X, nii, xgrid, mask, filename, std = TRUE, thres = 0)
 }
 \arguments{
 \item{X}{Data matrix with n rows (sample) and p colums (pixel).}

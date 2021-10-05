@@ -14,7 +14,7 @@
 #' @importFrom neurobase copyNIfTIHeader
 #'
 #' @examples
-output_nii = function(X,nii,xgrid,mask, filename, std=TRUE){
+output_nii = function(X,nii,xgrid,mask, filename, std=TRUE, thres = 0){
 
   if(std){
     X0 = matrix(0, ncol = ncol(X), nrow = nrow(X))
@@ -28,6 +28,16 @@ output_nii = function(X,nii,xgrid,mask, filename, std=TRUE){
     X0 = X
   }
 
+  if(thres>0){
+    for(i in 1:nrow(X)){
+      if(sd(X[i,])>0){
+        ind = ( X0[i,] > quantile(X0[i,],thres))
+        ind1 = ( X0[i,] < quantile(X0[i,],1-thres))
+        X0[i,] = X0[i,] * ( (ind +ind1)>0 )
+      }
+    }
+  }
+
   out_S = array(0, dim = c(dim(nii)[1], dim(nii)[2], dim(nii)[3], nrow(X)))
 
   tag = 1
@@ -39,7 +49,7 @@ output_nii = function(X,nii,xgrid,mask, filename, std=TRUE){
     }
   }
 
-  copyNIfTIHeader(img = nii, arr = out_S,drop = FALSE)
+  copyNIfTIHeader(img = nii, arr = out_S, drop = FALSE)
 
   writeNIfTI(out_S,filename = filename)
 

@@ -13,7 +13,6 @@
 #'   \item{S}{Estimated latent sources.}
 #'   \item{pip}{Posterior inclusion probability for the latent sources.}
 #'   \item{A}{Estimated mixing coefficent matrix.}
-#'   \item{tau}{Estimated tau.}
 #'   \item{zeta}{Estimated zeta.}
 #'   \item{sigma}{Estimated sigma.}
 #'   \item{logLik}{Trace of log-likelihood.}
@@ -30,7 +29,6 @@ sum_mcmc_bspbss = function(res, X, kernel, start = 1, end = 100, select_prob = 0
   out$S = tmp$S
   out$pip = tmp$pip
   out$A = apply(res$A,c(1,2),mean)
-  out$tau = mean(res$tau)
   out$zeta = mean(res$zeta)
   out$sigma = apply(res$sigma,1,mean)
   out$loglik = tmp$loglik
@@ -50,8 +48,6 @@ mcmc_sum_avgS = function(res, data, kernel, start = 1, end = 1, select_prob = 0.
 
   loglik = rep(0,n)
 
-  tau = mean(res$tau)
-
   Sl = matrix(0,nrow=q,ncol=p)
   spMat = matrix(0,nrow=q,ncol=p)
 
@@ -60,7 +56,7 @@ mcmc_sum_avgS = function(res, data, kernel, start = 1, end = 1, select_prob = 0.
   for(i in start:end){
 
     sumb = cal_sumb(res$b[,,i],kernel$psi)
-    S = cal_S(res$A[,,i],sumb,res$zeta[i],res$tau[i])
+    S = cal_S(sumb,res$zeta[i])
     Slist[[i-start + 1]] = S
 
     loglik[i-start + 1] = loglk(data,res$A[,,i],S,res$sigma[,i])
@@ -82,4 +78,6 @@ mcmc_sum_avgS = function(res, data, kernel, start = 1, end = 1, select_prob = 0.
 
   return( out )
 }
+
+
 

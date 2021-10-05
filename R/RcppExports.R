@@ -25,59 +25,47 @@ cal_sumb <- function(b, psi) {
     .Call('_BSPBSS_cal_sumb', PACKAGE = 'BSPBSS', b, psi)
 }
 
-cal_S <- function(A, sumb, zeta, tau) {
-    .Call('_BSPBSS_cal_S', PACKAGE = 'BSPBSS', A, sumb, zeta, tau)
-}
-
-cal_S_new <- function(A, sumb, zeta) {
-    .Call('_BSPBSS_cal_S_new', PACKAGE = 'BSPBSS', A, sumb, zeta)
+cal_S <- function(sumb, zeta) {
+    .Call('_BSPBSS_cal_S', PACKAGE = 'BSPBSS', sumb, zeta)
 }
 
 cal_core <- function(X, A, S) {
     .Call('_BSPBSS_cal_core', PACKAGE = 'BSPBSS', X, A, S)
 }
 
-sum_core <- function(Xcore, sigma) {
-    .Call('_BSPBSS_sum_core', PACKAGE = 'BSPBSS', Xcore, sigma)
+dL_b_sub <- function(b, X, A, lambda, psi, epsilon, zeta, sigma, sizep, sizen) {
+    .Call('_BSPBSS_dL_b_sub', PACKAGE = 'BSPBSS', b, X, A, lambda, psi, epsilon, zeta, sigma, sizep, sizen)
 }
 
-dL_b_sub <- function(b, X, A, lambda, tau, psi, epsilon, zeta, sigma, sizep, sizen) {
-    .Call('_BSPBSS_dL_b_sub', PACKAGE = 'BSPBSS', b, X, A, lambda, tau, psi, epsilon, zeta, sigma, sizep, sizen)
+GP_update_b_SGHMC <- function(b, X, A, S, sigma, lambda, psi, epsilon, sumb, zeta, X_core, eta, alpha, sizep, sizen, m, itr, nu) {
+    invisible(.Call('_BSPBSS_GP_update_b_SGHMC', PACKAGE = 'BSPBSS', b, X, A, S, sigma, lambda, psi, epsilon, sumb, zeta, X_core, eta, alpha, sizep, sizen, m, itr, nu))
 }
 
-GP_update_b_SGHMC <- function(b, X, A, S, sigma, lambda, tau, psi, epsilon, sumb, zeta, X_core, eta, alpha, sizep, sizen, m, itr, nu) {
-    invisible(.Call('_BSPBSS_GP_update_b_SGHMC', PACKAGE = 'BSPBSS', b, X, A, S, sigma, lambda, tau, psi, epsilon, sumb, zeta, X_core, eta, alpha, sizep, sizen, m, itr, nu))
-}
-
-GP_update_A <- function(A, prior, X_core, X, S, sigma, sizep) {
-    invisible(.Call('_BSPBSS_GP_update_A', PACKAGE = 'BSPBSS', A, prior, X_core, X, S, sigma, sizep))
+GP_update_A <- function(A, prior, X_core, X, S, sigma) {
+    invisible(.Call('_BSPBSS_GP_update_A', PACKAGE = 'BSPBSS', A, prior, X_core, X, S, sigma))
 }
 
 GP_update_sigma <- function(sigma, X_core, prior_sigma) {
     invisible(.Call('_BSPBSS_GP_update_sigma', PACKAGE = 'BSPBSS', sigma, X_core, prior_sigma))
 }
 
-log_p_zeta_Gaussian <- function(zeta, X_core, sigma, prior) {
-    .Call('_BSPBSS_log_p_zeta_Gaussian', PACKAGE = 'BSPBSS', zeta, X_core, sigma, prior)
+log_p_zeta_Gaussian <- function(zeta, X_core, sigma) {
+    .Call('_BSPBSS_log_p_zeta_Gaussian', PACKAGE = 'BSPBSS', zeta, X_core, sigma)
 }
 
-GP_update_zeta <- function(zeta, tau, sumb, X_core, sigma, X, A, S, stepsize, prior) {
-    invisible(.Call('_BSPBSS_GP_update_zeta', PACKAGE = 'BSPBSS', zeta, tau, sumb, X_core, sigma, X, A, S, stepsize, prior))
-}
-
-GP_update_tau <- function(tau, zeta, sumb, X_core, sigma, X, A, S, stepsize, prior) {
-    invisible(.Call('_BSPBSS_GP_update_tau', PACKAGE = 'BSPBSS', tau, zeta, sumb, X_core, sigma, X, A, S, stepsize, prior))
+GP_update_zeta <- function(zeta, sumb, X_core, sigma, X, A, S, stepsize, prior, count) {
+    invisible(.Call('_BSPBSS_GP_update_zeta', PACKAGE = 'BSPBSS', zeta, sumb, X_core, sigma, X, A, S, stepsize, prior, count))
 }
 
 loglk <- function(X, A, S, sigma) {
     .Call('_BSPBSS_loglk', PACKAGE = 'BSPBSS', X, A, S, sigma)
 }
 
-mcmc_bspbss_c <- function(X, A, b, tau, sigma, zeta, subsample_n, subsample_p, prior, psi, lambda, epsilon, lr, decay, MClength, burn_in, thin, show_step) {
-    .Call('_BSPBSS_mcmc_bspbss_c', PACKAGE = 'BSPBSS', X, A, b, tau, sigma, zeta, subsample_n, subsample_p, prior, psi, lambda, epsilon, lr, decay, MClength, burn_in, thin, show_step)
+mcmc_bspbss_c <- function(X, A, b, sigma, zeta, stepsize_zeta, subsample_n, subsample_p, prior, psi, lambda, epsilon, lr, decay, MClength, burn_in, thin, show_step) {
+    .Call('_BSPBSS_mcmc_bspbss_c', PACKAGE = 'BSPBSS', X, A, b, sigma, zeta, stepsize_zeta, subsample_n, subsample_p, prior, psi, lambda, epsilon, lr, decay, MClength, burn_in, thin, show_step)
 }
 
-smoos <- function(S, xgrid, smooth) {
-    .Call('_BSPBSS_smoos', PACKAGE = 'BSPBSS', S, xgrid, smooth)
+mcmc_bspbss_pickup_c <- function(X, A, b, sigma, zeta, stepsize_zeta, subsample_n, subsample_p, prior, psi, lambda, epsilon, lr, decay, MClength, thin, show_step) {
+    .Call('_BSPBSS_mcmc_bspbss_pickup_c', PACKAGE = 'BSPBSS', X, A, b, sigma, zeta, stepsize_zeta, subsample_n, subsample_p, prior, psi, lambda, epsilon, lr, decay, MClength, thin, show_step)
 }
 

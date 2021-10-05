@@ -6,6 +6,7 @@
 \usage{
 init_bspbss(
   X,
+  standardize = TRUE,
   xgrid,
   mask = rep(1, nrow(xgrid)),
   q = 2,
@@ -18,6 +19,8 @@ init_bspbss(
 }
 \arguments{
 \item{X}{Data matrix with n rows (sample) and p columns (voxel).}
+
+\item{standardize}{If TRUE, standarize each row of X.}
 
 \item{xgrid}{Cordinate matrix with p0 rows (voxel) and d columns (dimension). p0 >= p.}
 

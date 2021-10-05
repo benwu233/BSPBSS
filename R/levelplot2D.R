@@ -67,5 +67,4 @@ levelplot2D = function(S,lim = c(min(S),max(S)), xgrid,mask = rep(1,ncol(S)),col
     print(plot)
     while (dev.cur()>1) dev.off()
   }
-
 }

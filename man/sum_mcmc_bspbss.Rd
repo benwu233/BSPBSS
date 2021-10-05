@@ -24,7 +24,6 @@ List that contains the following terms:
   \item{S}{Estimated latent sources.}
   \item{pip}{Posterior inclusion probability for the latent sources.}
   \item{A}{Estimated mixing coefficent matrix.}
-  \item{tau}{Estimated tau.}
   \item{zeta}{Estimated zeta.}
   \item{sigma}{Estimated sigma.}
   \item{logLik}{Trace of log-likelihood.}
