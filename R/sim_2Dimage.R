@@ -34,7 +34,7 @@
 #'
 #' @examples
 #'
-sim_2Dimage_ICA = function(length = 20,  n = 50, sigma = 2e-3, smooth = 6){
+sim_2Dimage = function(length = 20,  n = 50, sigma = 2e-3, smooth = 6){
 
 
   grid = 1:length
@@ -93,7 +93,7 @@ sim_2Dimage_ICA = function(length = 20,  n = 50, sigma = 2e-3, smooth = 6){
   out = list()
 
   out$X = X
-  out$xgrid = xgrid
+  out$coords = xgrid[,2:1]
   out$A = A
   out$S = S
   out$snr = snr

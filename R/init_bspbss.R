@@ -34,7 +34,7 @@
 #'
 #' @examples
 #'
-init_bspbss= function(X, standardize = TRUE, xgrid,  mask = rep(1,nrow(xgrid)), q = 2, dens = 0.5, kernel="gaussian",ker_par = c(0.05, 20), num_eigen = 500, noise = 0.0 ){
+init_bspbss= function(X,  xgrid, standardize = TRUE,  mask = rep(1,nrow(xgrid)), q = 2, dens = 0.5, kernel="gaussian",ker_par = c(0.05, 20), num_eigen = 500, noise = 0.0 ){
 
   dim = ncol(xgrid)
   n = nrow(X)
@@ -51,71 +51,25 @@ init_bspbss= function(X, standardize = TRUE, xgrid,  mask = rep(1,nrow(xgrid)), 
 
   xgrid0 = GP.std.grids(xgrid,center=apply(xgrid,2,mean),scale=NULL,max_range=1)
 
-  if(kernel=="gaussian"){
+  lambda0 = GP.eigen.value(1000,ker_par[1],ker_par[2],dim)
 
-    lambda0 = GP.eigen.value(1000,ker_par[1],ker_par[2],dim)
-
-    if(num_eigen < length(lambda0)){
-      lambda_tmp = lambda0[1:num_eigen]
-    }
-
-    L = length(lambda_tmp)
-
-    k = 0
-    tag = 0
-
-    while(k<=L){
-      tag = tag + 1
-      k = choose(tag+dim,dim)
-    }
-
-    Psi0 = t( GP.eigen.funcs.fast(xgrid0[mask==1,],tag,ker_par[1],ker_par[2] ) )
-    Psi_tmp = Psi0[1:L,]
+  if(num_eigen < length(lambda0)){
+    lambda_tmp = lambda0[1:num_eigen]
   }
-  else if(kernel=="matern"){
 
-    if(num_eigen>p){
-      num_eigen = p
-    }
+  L = length(lambda_tmp)
 
-    xgrid1 = xgrid0[mask==1,]
+  k = 0
+  tag = 0
 
-    n_cluster = num_eigen
-    if(n_cluster > p){
-      n_cluster = p
-    }
-
-    km = kmeans(xgrid1, centers = n_cluster,iter.max = 100)
-    ind0 = rep(0,n_cluster)
-    for(l in 1:n_cluster){
-      ind1 = which(km$cluster==l)
-      tmp = abs( xgrid1[km$cluster==l,] - km$centers[l,] )
-      ind0[l] = ind1[which.min( apply(tmp,1,sum) )]
-    }
-
-    ind0 = floor(seq(1,p,length.out = n_cluster) )
-
-    distMat0 = disM(xgrid1,ind0-1)
-    #distMat0 = disM(xgrid1,0:(p-1))
-    distMat0 = sqrt(distMat0) #L*p
-
-    rho0 = ker_par[1]
-    kappa0 = ker_par[2] #3/2,5/2
-
-    #distMat0 = disM_full(xgrid1,rho0)
-
-    distMat = apply(distMat0/rho0, 2, matern, kappa0)
-
-
-    distMat_sub = distMat[,ind0]
-    eig0 = eigen(distMat_sub)
-
-    Psi0 = sqrt(n_cluster) * t(t(eig0$vectors) %*% distMat / eig0$values)
-
-    Psi_tmp = t(Psi0[,1:num_eigen])
-    lambda_tmp = eig0$values[1:num_eigen]/n_cluster
-
+  while(k<=L){
+    tag = tag + 1
+    k = choose(tag+dim,dim)
   }
+
+  Psi0 = t( GP.eigen.funcs.fast(xgrid0[mask==1,],tag,ker_par[1],ker_par[2] ) )
+  Psi_tmp = Psi0[1:L,]
+
 
   ica_tmp = ICA_imax(X,q)
   A0 = ica_tmp$A * sqrt(n)

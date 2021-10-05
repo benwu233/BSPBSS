@@ -4,7 +4,6 @@
 # BSPBSS
 
 <!-- badges: start -->
-
 <!-- badges: end -->
 
 Bayesian Spatial Blind Source Separation via Thresholded Gaussian
@@ -18,23 +17,71 @@ Install the released version of nlss from Github with:
 devtools::install_github("benwu233/BSPBSS")
 ```
 
-## Example
+## A toy example
 
 This is a basic example which shows you how to solve a common problem:
 
+First we load the package and generate simulated images with a
+probabilistic ICA model:
+
 ``` r
 library(BSPBSS)
-#> Loading required package: movMF
-
-#simulate images with a probabilistic ICA model
-sim = sim_2Dimage_ICA(length = 30, sigma = 5e-4, n = 20, smooth = 0)
-
-#generate initial values for mcmc.
-ini = init_bspbss(sim$X, xgrid = sim$xgrid, mask = rep(1,nrow(sim$xgrid)), q = 3,dens= 0.5,kernel="gaussian", ker_par = c(0.1,10), num_eigen = 50 )
-
-#mcmc
-res = mcmc_bspbss(sim$X,ini$init,ini$prior,ini$kernel,ep=0.5,lr = 0.1,decay = 0.1,subsample_n = 0.5, subsample_p = 0.5,n.iter = 5000,n.burn_in = 3000,thin = 10,show_step = 1000)
-
-#summarize the result
-res_sum = sum_mcmc_bspbss(res, sim$X, ini$kernel, start = 1, end = 200, select_p = 0.8)
+set.seed(612)
+sim = sim_2Dimage(length = 30, sigma = 5e-4, n = 30, smooth = 0)
 ```
+
+The true source signals are three 2D geometric patterns
+
+``` r
+levelplot2D(sim$S,lim = c(-0.04,0.04), sim$coords)
+```
+
+<img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
+
+which generate observed images such as
+
+``` r
+levelplot2D(sim$X[1:3,], lim = c(-0.12,0.12), sim$coords)
+```
+
+<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
+
+Then we generate initial values for mcmc…
+
+``` r
+ini = init_bspbss(sim$X, sim$coords, q = 3, ker_par = c(0.1,50), num_eigen = 50)
+```
+
+and run!
+
+``` r
+MClength = 2000
+burn_in = 1000
+show_step = 100
+res = mcmc_bspbss(ini$X,ini$init,ini$prior,ini$kernel,ep=0.1,lr = 0.01,decay=0.01, subsample_n = 0.5, subsample_p = 0.5,MClength,burn_in,thin=10,show_step)
+```
+
+Then the results can be summarized by
+
+``` r
+res_sum = sum_mcmc_bspbss(res, ini$X, ini$kernel, start = 101, end = 200, select_p = 0.5)
+```
+
+and shown by
+
+``` r
+levelplot2D(res_sum$S, lim = c(-1.2,1.2), sim$coords)
+```
+
+<img src="man/figures/README-unnamed-chunk-9-1.png" width="100%" />
+
+We may overspecify the number of components
+
+``` r
+ini = init_bspbss(sim$X, sim$coords, q = 5, ker_par = c(0.1,50), num_eigen = 50)
+res = mcmc_bspbss(ini$X,ini$init,ini$prior,ini$kernel,ep=0.1,lr = 0.01,decay=0.01, subsample_n = 0.5, subsample_p = 0.5,MClength,burn_in,thin=10,show_step)
+res_sum = sum_mcmc_bspbss(res, ini$X, ini$kernel, start = 101, end = 200, select_p = 0.5)
+levelplot2D(res_sum$S, lim = c(-1.2,1.2), sim$coords)
+```
+
+<img src="man/figures/README-unnamed-chunk-10-1.png" width="100%" />

@@ -10,7 +10,7 @@
 #' @param color Colorbar.
 #' @param file Name of the file to be saved.
 #'
-#' @importFrom gplots colorpanel
+#' @import gplots
 #' @import ggplot2
 #'
 #' @export

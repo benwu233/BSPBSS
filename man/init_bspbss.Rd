@@ -6,8 +6,8 @@
 \usage{
 init_bspbss(
   X,
-  standardize = TRUE,
   xgrid,
+  standardize = TRUE,
   mask = rep(1, nrow(xgrid)),
   q = 2,
   dens = 0.5,
@@ -20,9 +20,9 @@ init_bspbss(
 \arguments{
 \item{X}{Data matrix with n rows (sample) and p columns (voxel).}
 
-\item{standardize}{If TRUE, standarize each row of X.}
-
 \item{xgrid}{Cordinate matrix with p0 rows (voxel) and d columns (dimension). p0 >= p.}
+
+\item{standardize}{If TRUE, standarize each row of X.}
 
 \item{mask}{Logical vector of length p0, with p elements being equal to 1 and p0-p elements being equal to 0.}
 
