@@ -70,7 +70,7 @@ res_sum = sum_mcmc_bspbss(res, ini$X, ini$kernel, start = 101, end = 200, select
 and shown by
 
 ``` r
-levelplot2D(res_sum$S, lim = c(-1.2,1.2), sim$coords)
+levelplot2D(res_sum$S, lim = c(-1.3,1.3), sim$coords)
 ```
 
 <img src="man/figures/README-unnamed-chunk-9-1.png" width="100%" />
@@ -86,10 +86,10 @@ levelplot2D(ini$init$ICA_S, lim = c(-1.6,1.6), sim$coords)
 We may overspecify the number of components
 
 ``` r
-ini = init_bspbss(sim$X, sim$coords, q = 5, ker_par = c(0.1,50), num_eigen = 50)
+ini = init_bspbss(sim$X, sim$coords, q = 7, ker_par = c(0.1,50), num_eigen = 50)
 res = mcmc_bspbss(ini$X,ini$init,ini$prior,ini$kernel,MClength,burn_in,thin=10,show_step)
 res_sum = sum_mcmc_bspbss(res, ini$X, ini$kernel, start = 101, end = 200, select_p = 0.5)
-levelplot2D(res_sum$S, lim = c(-1.2,1.2), sim$coords)
+levelplot2D(res_sum$S, lim = c(-1.3,1.3), sim$coords)
 ```
 
 <img src="man/figures/README-unnamed-chunk-11-1.png" width="100%" />
