@@ -27,10 +27,11 @@ probabilistic ICA model:
 ``` r
 library(BSPBSS)
 set.seed(612)
-sim = sim_2Dimage(length = 30, sigma = 5e-4, n = 30, smooth = 0)
+sim = sim_2Dimage(length = 30, sigma = 5e-4, n = 30, smooth = 6)
 ```
 
-The true source signals are three 2D geometric patterns
+The true source signals are three 2D geometric patterns (set `smooth=0`
+to generate patterns with sharp edges)
 
 ``` r
 levelplot2D(sim$S,lim = c(-0.04,0.04), sim$coords)
@@ -75,10 +76,11 @@ levelplot2D(res_sum$S, lim = c(-1.3,1.3), sim$coords)
 
 <img src="man/figures/README-unnamed-chunk-9-1.png" width="100%" />
 
-For comparison, informax ICA provides estimation as
+For comparison, we show the estimated sources provided by informax ICA
+here
 
 ``` r
-levelplot2D(ini$init$ICA_S, lim = c(-1.6,1.6), sim$coords)
+levelplot2D(ini$init$ICA_S, lim = c(-1.7,1.7), sim$coords)
 ```
 
 <img src="man/figures/README-unnamed-chunk-10-1.png" width="100%" />
