@@ -19,7 +19,7 @@ devtools::install_github("benwu233/BSPBSS")
 
 ## A toy example
 
-This is a basic example which shows you how to solve a common problem:
+This is a basic example which shows you how to solve a common problem.
 
 First we load the package and generate simulated images with a
 probabilistic ICA model:
@@ -31,7 +31,7 @@ sim = sim_2Dimage(length = 30, sigma = 5e-4, n = 30, smooth = 6)
 ```
 
 The true source signals are three 2D geometric patterns (set `smooth=0`
-to generate patterns with sharp edges)
+to generate patterns with sharp edges).
 
 ``` r
 levelplot2D(sim$S,lim = c(-0.04,0.04), sim$coords)
@@ -47,7 +47,7 @@ levelplot2D(sim$X[1:3,], lim = c(-0.12,0.12), sim$coords)
 
 <img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
 
-Then we generate initial values for mcmc…
+Then we generate initial values for mcmc,
 
 ``` r
 ini = init_bspbss(sim$X, sim$coords, q = 3, ker_par = c(0.1,50), num_eigen = 50)
@@ -77,7 +77,7 @@ levelplot2D(res_sum$S, lim = c(-1.3,1.3), sim$coords)
 <img src="man/figures/README-unnamed-chunk-9-1.png" width="100%" />
 
 For comparison, we show the estimated sources provided by informax ICA
-here
+here.
 
 ``` r
 levelplot2D(ini$init$ICA_S, lim = c(-1.7,1.7), sim$coords)
@@ -85,7 +85,8 @@ levelplot2D(ini$init$ICA_S, lim = c(-1.7,1.7), sim$coords)
 
 <img src="man/figures/README-unnamed-chunk-10-1.png" width="100%" />
 
-We may overspecify the number of components
+We may overspecify the number of components and still obtain reasonable
+results.
 
 ``` r
 ini = init_bspbss(sim$X, sim$coords, q = 7, ker_par = c(0.1,50), num_eigen = 50)
