@@ -5,6 +5,7 @@
 #' @param nii_file_list A list of NIfTI file(s).
 #' @param mask_file Path to the mask file.
 #'
+#' @importFrom oro.nifti readNIfTI
 #' @return
 #' @export
 #'

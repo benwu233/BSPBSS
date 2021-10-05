@@ -281,6 +281,19 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// smoos
+NumericMatrix smoos(NumericMatrix S, IntegerMatrix xgrid, double smooth);
+RcppExport SEXP _BSPBSS_smoos(SEXP SSEXP, SEXP xgridSEXP, SEXP smoothSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type S(SSEXP);
+    Rcpp::traits::input_parameter< IntegerMatrix >::type xgrid(xgridSEXP);
+    Rcpp::traits::input_parameter< double >::type smooth(smoothSEXP);
+    rcpp_result_gen = Rcpp::wrap(smoos(S, xgrid, smooth));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_BSPBSS_disM", (DL_FUNC) &_BSPBSS_disM, 2},
@@ -300,6 +313,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_BSPBSS_loglk", (DL_FUNC) &_BSPBSS_loglk, 4},
     {"_BSPBSS_mcmc_bspbss_c", (DL_FUNC) &_BSPBSS_mcmc_bspbss_c, 18},
     {"_BSPBSS_mcmc_bspbss_pickup_c", (DL_FUNC) &_BSPBSS_mcmc_bspbss_pickup_c, 17},
+    {"_BSPBSS_smoos", (DL_FUNC) &_BSPBSS_smoos, 3},
     {NULL, NULL, 0}
 };
 

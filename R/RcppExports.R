@@ -69,3 +69,7 @@ mcmc_bspbss_pickup_c <- function(X, A, b, sigma, zeta, stepsize_zeta, subsample_
     .Call('_BSPBSS_mcmc_bspbss_pickup_c', PACKAGE = 'BSPBSS', X, A, b, sigma, zeta, stepsize_zeta, subsample_n, subsample_p, prior, psi, lambda, epsilon, lr, decay, MClength, thin, show_step)
 }
 
+smoos <- function(S, xgrid, smooth) {
+    .Call('_BSPBSS_smoos', PACKAGE = 'BSPBSS', S, xgrid, smooth)
+}
+

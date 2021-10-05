@@ -10,15 +10,15 @@ mcmc_bspbss(
   init,
   prior,
   kernel,
-  ep = 0.5,
-  lr = 0.1,
-  decay = 0.1,
-  subsample_n,
-  subsample_p,
   n.iter,
   n.burn_in,
   thin = 1,
-  show_step
+  show_step,
+  ep = 0.1,
+  lr = 0.01,
+  decay = 0.01,
+  subsample_n = 0.5,
+  subsample_p = 0.5
 )
 }
 \arguments{
@@ -30,14 +30,6 @@ mcmc_bspbss(
 
 \item{kernel}{List including eigenvalues and eigenfunctions of the kernel, see \code{init_TGP}.}
 
-\item{ep}{Approximation parameter.}
-
-\item{lr}{Per-batch learning rate.}
-
-\item{subsample_n}{Size of a mini-batch for samples.}
-
-\item{subsample_p}{Size of a mini-batch for voxels.}
-
 \item{n.iter}{Total iterations in MCMC.}
 
 \item{n.burn_in}{Number of burn-in.}
@@ -45,6 +37,14 @@ mcmc_bspbss(
 \item{thin}{Thining interval.}
 
 \item{show_step}{Frequency for printing the current number of iterations.}
+
+\item{ep}{Approximation parameter.}
+
+\item{lr}{Per-batch learning rate.}
+
+\item{subsample_n}{Size of a mini-batch for samples.}
+
+\item{subsample_p}{Size of a mini-batch for voxels.}
 }
 \value{
 List that contains MCMC samples for: A, b, sigma, zeta and tau.

@@ -729,3 +729,38 @@ List mcmc_bspbss_pickup_c(arma::mat &X, arma::mat &A, arma::mat &b,
 
 }
 
+
+//[[Rcpp::export]]
+NumericMatrix smoos(NumericMatrix S, IntegerMatrix xgrid, double smooth){
+  Rcpp::Dimension S_dim = S.attr("dim");
+  int q = S_dim[0];
+  int p = S_dim[1];
+  NumericMatrix out(q,p);
+  double count = 0;
+  double tmp = 0;
+
+  for(int j = 0; j < q; j++){
+    for(int v = 0; v < p; v++){
+      out(j,v) = 0;
+    }
+  }
+
+  for(int j = 0; j < q; j++){
+    for(int v0 = 0; v0 < p; v0++){
+      count = 0;
+      tmp = 0;
+      for(int v = 0; v < p; v++){
+        if( (xgrid(v0,1)-xgrid(v,1))*(xgrid(v0,1)-xgrid(v,1))
+              +(xgrid(v0,0)-xgrid(v,0))*(xgrid(v0,0)-xgrid(v,0)) < smooth*smooth ) {
+          count = count + 1;
+          tmp = tmp + S(j,v);
+        }
+      }
+      out(j,v0) = tmp / count;
+
+
+    }
+  }
+
+  return out;
+}

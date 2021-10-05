@@ -87,7 +87,7 @@ We may overspecify the number of components
 
 ``` r
 ini = init_bspbss(sim$X, sim$coords, q = 5, ker_par = c(0.1,50), num_eigen = 50)
-res = mcmc_bspbss(ini$X,ini$init,ini$prior,ini$kernel,ep=0.1,lr = 0.01,decay=0.01, subsample_n = 0.5, subsample_p = 0.5,MClength,burn_in,thin=10,show_step)
+res = mcmc_bspbss(ini$X,ini$init,ini$prior,ini$kernel,MClength,burn_in,thin=10,show_step)
 res_sum = sum_mcmc_bspbss(res, ini$X, ini$kernel, start = 101, end = 200, select_p = 0.5)
 levelplot2D(res_sum$S, lim = c(-1.2,1.2), sim$coords)
 ```
