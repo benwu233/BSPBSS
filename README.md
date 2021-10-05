@@ -75,6 +75,14 @@ levelplot2D(res_sum$S, lim = c(-1.2,1.2), sim$coords)
 
 <img src="man/figures/README-unnamed-chunk-9-1.png" width="100%" />
 
+For comparison, informax ICA provides estimation as
+
+``` r
+levelplot2D(ini$init$ICA_S, lim = c(-1.6,1.6), sim$coords)
+```
+
+<img src="man/figures/README-unnamed-chunk-10-1.png" width="100%" />
+
 We may overspecify the number of components
 
 ``` r
@@ -84,4 +92,4 @@ res_sum = sum_mcmc_bspbss(res, ini$X, ini$kernel, start = 101, end = 200, select
 levelplot2D(res_sum$S, lim = c(-1.2,1.2), sim$coords)
 ```
 
-<img src="man/figures/README-unnamed-chunk-10-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-11-1.png" width="100%" />

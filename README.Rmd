@@ -75,6 +75,12 @@ and shown by
 levelplot2D(res_sum$S, lim = c(-1.2,1.2), sim$coords)
 ```
 
+For comparison, informax ICA provides estimation as  
+```{r}
+levelplot2D(ini$init$ICA_S, lim = c(-1.6,1.6), sim$coords)
+```
+
+
 We may overspecify the number of components
 ```{r, message = TRUE}
 ini = init_bspbss(sim$X, sim$coords, q = 5, ker_par = c(0.1,50), num_eigen = 50)
