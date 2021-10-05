@@ -10,7 +10,8 @@ knitr::opts_chunk$set(
   comment = "#>",
   fig.path = "man/figures/README-",
   out.width = "100%",
-  echo = TRUE
+  echo = TRUE,
+  fig.height =2
 )
 ```
 # BSPBSS
@@ -57,7 +58,7 @@ ini = init_bspbss(sim$X, sim$coords, q = 3, ker_par = c(0.1,50), num_eigen = 50)
 ```
 
 and run!
-```{r, }
+```{r, message = TRUE}
 MClength = 2000
 burn_in = 1000
 show_step = 100
@@ -75,7 +76,7 @@ levelplot2D(res_sum$S, lim = c(-1.2,1.2), sim$coords)
 ```
 
 We may overspecify the number of components
-```{r}
+```{r, message = TRUE}
 ini = init_bspbss(sim$X, sim$coords, q = 5, ker_par = c(0.1,50), num_eigen = 50)
 res = mcmc_bspbss(ini$X,ini$init,ini$prior,ini$kernel,ep=0.1,lr = 0.01,decay=0.01, subsample_n = 0.5, subsample_p = 0.5,MClength,burn_in,thin=10,show_step)
 res_sum = sum_mcmc_bspbss(res, ini$X, ini$kernel, start = 101, end = 200, select_p = 0.5)
