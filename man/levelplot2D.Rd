@@ -6,31 +6,31 @@
 \usage{
 levelplot2D(
   S,
+  coords,
   lim = c(min(S), max(S)),
-  xgrid,
-  mask = rep(1, ncol(S)),
+  xlim = c(0, max(coords[, 1])),
+  ylim = c(0, max(coords[, 2])),
   color = bluered(100),
-  path,
-  name
+  layout = c(1, nrow(S)),
+  file = NULL
 )
 }
 \arguments{
 \item{S}{Data matrix with q rows (sample) and p colums (pixel).}
 
-\item{lim}{2-dimensional vector specifying the limits for the data.}
+\item{coords}{Coordinates matrix with p rows (pixel) and 2 columns (dimension), specifying the coordinates of the data points.}
 
-\item{xgrid}{Cordinate matrix with p0 rows (voxel) and d columns (dimension).p0 >= p.}
+\item{lim}{2-dimensional numeric vector, specifying the limits for the data.}
 
-\item{mask}{Logical vector of length p0, with p elements being equal to 1 and p0-p elements being equal to 0.}
+\item{xlim}{2-dimensional numeric vector, specifying the lower and upper limits of \code{x}.}
+
+\item{ylim}{2-dimensional numeric vector, specifying the lower and upper limits of \code{y}.}
 
 \item{color}{Colorbar.}
 
-\item{path}{Path that images are saved at, ended with a "/" or "\".}
+\item{layout}{2-dimensional numeric vector, specifying the number of rows and number of columns for the layout of components.}
 
-\item{name}{File names.}
-}
-\value{
-
+\item{file}{Name of the file to be saved.}
 }
 \description{
 The function plots 2D images for a data matrix.

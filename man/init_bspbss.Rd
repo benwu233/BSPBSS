@@ -30,11 +30,9 @@ init_bspbss(
 
 \item{dens}{The initial density level (between 0 and 1) of the latent sources.}
 
-\item{kernel}{"gaussian" or "matern".}
-
 \item{ker_par}{2-dimensional vector (a,b) with a>0, b>0, specifing the parameters in the modified exponetial squared kernel.}
 
-\item{num_eigen}{Number of the eigen functions.}
+\item{num_eigen}{Number of eigen functions.}
 
 \item{noise}{Gaussian noise added to the initial latent sources, with mean 0 and standard deviation being noise * sd(S0),
 where sd(S0) is the standard deviation of the initial latent sources.}
@@ -44,7 +42,7 @@ List includes the initial values, priors and eigen functions/eigen values of the
 }
 \description{
 Generate initial values, set up priors and perform kernel decomposition
-for runing MCMC algorithm.
+for the MCMC algorithm.
 }
 \examples{
 

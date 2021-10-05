@@ -17,7 +17,6 @@
 #' @export
 #'
 #' @importFrom Rcpp sourceCpp
-#' @importFrom RcppParallel RcppParallelLibs
 #' @importFrom stats sd
 #' @importFrom glmnet glmnet
 #' @importFrom svd propack.svd

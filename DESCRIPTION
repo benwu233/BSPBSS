@@ -18,5 +18,5 @@ LazyData: true
 RoxygenNote: 7.1.1
 LinkingTo: Rcpp, RcppArmadillo
 Imports: rstiefel, Rcpp, RcppArmadillo, 
-    ica, glmnet, lattice, grDevices, gplots,BayesGPfit,svd,RandomFieldsUtils,
-    neurobase,oro.nifti
+    ica, glmnet, gplots,BayesGPfit, svd, RandomFieldsUtils,
+    neurobase, oro.nifti, gridExtra, ggplot2
