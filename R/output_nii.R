@@ -14,7 +14,7 @@
 #' @importFrom neurobase copyNIfTIHeader
 #'
 #' @examples
-output_nii = function(X,nii,xgrid,mask, filename, std=TRUE, thres = 0){
+output_nii = function(X,nii,xgrid, filename=NULL, std=TRUE, thres = 0){
 
   if(std){
     X0 = matrix(0, ncol = ncol(X), nrow = nrow(X))
@@ -43,14 +43,15 @@ output_nii = function(X,nii,xgrid,mask, filename, std=TRUE, thres = 0){
   tag = 1
 
   for(i in 1:nrow(xgrid)){
-    if(mask[i]==1){
-      out_S[xgrid[i,1],xgrid[i,2],xgrid[i,3],] = X0[,tag]
-      tag = tag + 1
-    }
+    out_S[xgrid[i,1],xgrid[i,2],xgrid[i,3],] = X0[,i]
   }
 
   copyNIfTIHeader(img = nii, arr = out_S, drop = FALSE)
 
-  writeNIfTI(out_S,filename = filename)
+  if(!is.null(filename)){
+    writeNIfTI(out_S,filename = filename)
+  }
+
+  return(out_S)
 
 }
