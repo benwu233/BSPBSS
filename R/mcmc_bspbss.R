@@ -21,7 +21,7 @@
 #'
 #' @exampless
 mcmc_bspbss = function(X,init,prior,kernel,n.iter,n.burn_in,thin=1,show_step,
-                       ep = 0.1,lr = 0.01, decay = 0.01,
+                       ep = 0.01,lr = 0.01, decay = 0.01,
                        subsample_n = 0.5,subsample_p=0.5){
 
   sigma0 = apply(X - init$A%*%init$S,2,var)

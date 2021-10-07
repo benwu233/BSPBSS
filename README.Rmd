@@ -59,10 +59,7 @@ ini = init_bspbss(sim$X, sim$coords, q = 3, ker_par = c(0.1,50), num_eigen = 50)
 
 and run!
 ```{r, message = TRUE}
-MClength = 2000
-burn_in = 1000
-show_step = 100
-res = mcmc_bspbss(ini$X,ini$init,ini$prior,ini$kernel,ep=0.1,lr = 0.01,decay=0.01, subsample_n = 0.5, subsample_p = 0.5,MClength,burn_in,thin=10,show_step)
+res = mcmc_bspbss(ini$X,ini$init,ini$prior,ini$kernel,n.iter=2000,n.burn_in=1000,thin=10,show_step=100)
 ```
 
 Then the results can be summarized by
@@ -83,10 +80,53 @@ levelplot2D(ini$init$ICA_S, lim = c(-1.7,1.7), sim$coords)
 
 We may overspecify the number of components and still obtain reasonable results.
 ```{r, message = TRUE}
-ini = init_bspbss(sim$X, sim$coords, q = 7, ker_par = c(0.1,50), num_eigen = 50)
-res = mcmc_bspbss(ini$X,ini$init,ini$prior,ini$kernel,MClength,burn_in,thin=10,show_step)
+ini = init_bspbss(sim$X, sim$coords, q = 5, ker_par = c(0.1,50), num_eigen = 50)
+res = mcmc_bspbss(ini$X,ini$init,ini$prior,ini$kernel,n.iter=2000,n.burn_in=1000,thin=10,show_step=100)
 res_sum = sum_mcmc_bspbss(res, ini$X, ini$kernel, start = 101, end = 200, select_p = 0.5)
 levelplot2D(res_sum$S, lim = c(-1.3,1.3), sim$coords)
+```
+
+## NIfTI daata
+
+Install a small pack contains simulated NIfTI images and MNI152 template.
+
+```{r, eval = FALSE}
+devtools::install_github("benwu233/SIMDATA")
+```
+
+Load and take a glance at the data.
+```{r}
+data_path = system.file("extdata",package="SIMDATA") 
+t1_3mm = neurobase::readNIfTI2(paste0(data_path,"/template/MNI152_T1_3mm.nii.gz"))
+sim_4d = neurobase::readNIfTI2(paste0(data_path,"/sim_4d/sim_4d.nii.gz"))
+mask = neurobase::readNIfTI2(paste0(data_path,"/sim_4d/mask.nii.gz"))
+neurobase::ortho2(t1_3mm, y=sim_4d[,,,1])
+```
+
+Conduct BSPBSS (with overspecification of the number of latent sources).
+```{r}
+X = pre_nii(sim_4d,mask)
+ini = init_bspbss(X$data, xgrid = X$coords, dens = 0.5, q = 3, ker_par = c(0.01, 120), num_eigen = 200)
+res = mcmc_bspbss(ini$X,ini$init,ini$prior,ini$kernel,n.iter=4000,n.burn_in=2000,thin=10,show_step=100,subsample_p=0.005)
+res_sum = sum_mcmc_bspbss(res, ini$X, ini$kernel, start = 201, end = 300, select_p = 0.5)
+```
+
+Output:
+```{r}
+ICs = output_nii(res_sum$S,sim_4d,X$coords,filename=NULL,std=TRUE)
+```
+
+Component 1:
+```{r}
+neurobase::ortho2(t1_3mm,y=ICs[,,,1])
+```
+Component 2:
+```{r}
+neurobase::ortho2(t1_3mm,y=ICs[,,,2])
+```
+Component 3:
+```{r}
+neurobase::ortho2(t1_3mm,y=ICs[,,,3])
 ```
 
 

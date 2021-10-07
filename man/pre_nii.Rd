@@ -4,7 +4,7 @@
 \alias{pre_nii}
 \title{Read a NIfTI file}
 \usage{
-pre_nii(nii_file_list, mask_file)
+pre_nii(nii, mask)
 }
 \arguments{
 \item{nii_file_list}{A list of NIfTI file(s).}

@@ -111,7 +111,7 @@ init_bspbss= function(X,  xgrid, standardize = TRUE,  mask = rep(1,nrow(xgrid)),
   out$init = init
   out$prior = prior
   out$kernel = kernel
-  out$grid = xgrid0
+  out$coords = xgrid0
   out$X = X
 
   return(out)

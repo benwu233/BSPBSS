@@ -10,10 +10,8 @@
 #' @export
 #'
 #' @examples
-pre_nii = function(nii_file,mask_file){
+pre_nii = function(nii,mask){
 
-  mask = readNIfTI(mask_file)
-  nii = readNIfTI(nii_file)
   dim_nii = dim(mask)
 
   xgrid = as.matrix(expand.grid(1:dim_nii[1],1:dim_nii[2],1:dim_nii[3]))
@@ -25,7 +23,7 @@ pre_nii = function(nii_file,mask_file){
   }
 
   out = list()
-  out$data = data0
+  out$data = t(data0)
   out$coords = xgrid[mask_vec!=0,]
 
   return(out)

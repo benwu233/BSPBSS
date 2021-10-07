@@ -4,7 +4,7 @@
 \alias{output_nii}
 \title{Write a NIfTI file.}
 \usage{
-output_nii(X, nii, xgrid, mask, filename, std = TRUE, thres = 0)
+output_nii(X, nii, xgrid, filename = NULL, std = TRUE, thres = 0)
 }
 \arguments{
 \item{X}{Data matrix with n rows (sample) and p colums (pixel).}
@@ -15,7 +15,7 @@ output_nii(X, nii, xgrid, mask, filename, std = TRUE, thres = 0)
 
 \item{mask}{Logical vector of length p0, with p elements being equal to 1 and p0-p elements being equal to 0.}
 
-\item{filename}{Path and file name to save the NIfTI file.}
+\item{file}{The name to the file to be saved.}
 }
 \value{
 

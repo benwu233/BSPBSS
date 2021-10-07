@@ -14,7 +14,7 @@ mcmc_bspbss(
   n.burn_in,
   thin = 1,
   show_step,
-  ep = 0.1,
+  ep = 0.01,
   lr = 0.01,
   decay = 0.01,
   subsample_n = 0.5,

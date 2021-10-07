@@ -5,7 +5,7 @@
 #' @param nii a reference NIfTI-class object, representing a image with p0 voxels.
 #' @param xgrid Cordinate matrix with p0 rows (voxel) and d columns (dimension). p0 >= p.
 #' @param mask Logical vector of length p0, with p elements being equal to 1 and p0-p elements being equal to 0.
-#' @param filename Path and file name to save the NIfTI file.
+#' @param file The name to the file to be saved.
 #'
 #' @return
 #' @export
