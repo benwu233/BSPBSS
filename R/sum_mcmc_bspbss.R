@@ -11,7 +11,7 @@
 #' @return List that contains the following terms:
 #' \describe{
 #'   \item{S}{Estimated latent sources.}
-#'   \item{pip}{Posterior inclusion probability for the latent sources.}
+#'   \item{pip}{Voxel-wise posterior inclusion probability for the latent sources.}
 #'   \item{A}{Estimated mixing coefficent matrix.}
 #'   \item{zeta}{Estimated zeta.}
 #'   \item{sigma}{Estimated sigma.}

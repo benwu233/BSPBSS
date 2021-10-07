@@ -13,6 +13,7 @@
 #' @param show_step Frequency for printing the current number of iterations.
 #' @param ep Approximation parameter.
 #' @param lr Per-batch learning rate.
+#' @param decay
 #' @param subsample_n Size of a mini-batch for samples.
 #' @param subsample_p Size of a mini-batch for voxels.
 #'

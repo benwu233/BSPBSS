@@ -119,15 +119,15 @@ Conduct BSPBSS (with overspecification of the number of latent sources).
 
 ``` r
 X = pre_nii(sim_4d,mask)
-ini = init_bspbss(X$data, xgrid = X$coords, dens = 0.5, q = 3, ker_par = c(0.01, 120), num_eigen = 200)
+ini = init_bspbss(X$data, X$coords, dens = 0.5, q = 3, ker_par = c(0.01, 120), num_eigen = 200)
 res = mcmc_bspbss(ini$X,ini$init,ini$prior,ini$kernel,n.iter=4000,n.burn_in=2000,thin=10,show_step=100,subsample_p=0.005)
-res_sum = sum_mcmc_bspbss(res, ini$X, ini$kernel, start = 201, end = 300, select_p = 0.5)
+res_sum = sum_mcmc_bspbss(res, ini$X, ini$kernel, start = 201, end = 400, select_p = 0.5)
 ```
 
 Output:
 
 ``` r
-ICs = output_nii(res_sum$S,sim_4d,X$coords,filename=NULL,std=TRUE)
+ICs = output_nii(res_sum$S,sim_4d,X$coords,file=NULL,std=TRUE)
 ```
 
 Component 1:

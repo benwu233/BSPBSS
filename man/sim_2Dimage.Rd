@@ -19,7 +19,7 @@ sim_2Dimage(length = 20, n = 50, sigma = 0.002, smooth = 6)
 List that contains the following terms:
 \describe{
   \item{X}{Data matrix with n rows (sample) and p columns (pixel).}
-  \item{xgrid}{Cordinate matrix with p rows (pixel) and d columns (dimension)}
+  \item{coords}{Cordinate matrix with p rows (pixel) and d columns (dimension)}
   \item{S}{Latent components.}
   \item{A}{Mixing coefficent matrix.}
   \item{snr}{Signal-to-noise ratio.}

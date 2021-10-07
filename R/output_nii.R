@@ -5,7 +5,7 @@
 #' @param nii a reference NIfTI-class object, representing a image with p0 voxels.
 #' @param xgrid Cordinate matrix with p0 rows (voxel) and d columns (dimension). p0 >= p.
 #' @param mask Logical vector of length p0, with p elements being equal to 1 and p0-p elements being equal to 0.
-#' @param file The name to the file to be saved.
+#' @param file The name of the file to be saved.
 #'
 #' @return
 #' @export
@@ -14,7 +14,7 @@
 #' @importFrom neurobase copyNIfTIHeader
 #'
 #' @examples
-output_nii = function(X,nii,xgrid, filename=NULL, std=TRUE, thres = 0){
+output_nii = function(X,nii,xgrid, file=NULL, std=TRUE, thres = 0){
 
   if(std){
     X0 = matrix(0, ncol = ncol(X), nrow = nrow(X))
@@ -48,8 +48,8 @@ output_nii = function(X,nii,xgrid, filename=NULL, std=TRUE, thres = 0){
 
   copyNIfTIHeader(img = nii, arr = out_S, drop = FALSE)
 
-  if(!is.null(filename)){
-    writeNIfTI(out_S,filename = filename)
+  if(!is.null(file)){
+    writeNIfTI(out_S,file = file)
   }
 
   return(out_S)

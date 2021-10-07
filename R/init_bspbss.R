@@ -4,8 +4,7 @@
 #'
 #' @param X Data matrix with n rows (sample) and p columns (voxel).
 #' @param standardize If TRUE, standarize each row of X.
-#' @param xgrid Cordinate matrix with p0 rows (voxel) and d columns (dimension). p0 >= p.
-#' @param mask Logical vector of length p0, with p elements being equal to 1 and p0-p elements being equal to 0.
+#' @param coords Cordinate matrix with p rows (voxel) and d columns (dimension).
 #' @param q Number of latent sources.
 #' @param dens The initial density level (between 0 and 1) of the latent sources.
 #' @param ker_par 2-dimensional vector (a,b) with a>0, b>0, specifing the parameters in the modified exponetial squared kernel.
@@ -34,9 +33,9 @@
 #'
 #' @examples
 #'
-init_bspbss= function(X,  xgrid, standardize = TRUE,  mask = rep(1,nrow(xgrid)), q = 2, dens = 0.5, kernel="gaussian",ker_par = c(0.05, 20), num_eigen = 500, noise = 0.0 ){
+init_bspbss= function(X, coords, standardize = TRUE, q = 2, dens = 0.5, ker_par = c(0.05, 20), num_eigen = 500, noise = 0.0 ){
 
-  dim = ncol(xgrid)
+  dim = ncol(coords)
   n = nrow(X)
   p = ncol(X)
 
@@ -49,7 +48,7 @@ init_bspbss= function(X,  xgrid, standardize = TRUE,  mask = rep(1,nrow(xgrid)),
     }
   }
 
-  xgrid0 = GP.std.grids(xgrid,center=apply(xgrid,2,mean),scale=NULL,max_range=1)
+  coords0 = GP.std.grids(coords,center=apply(coords,2,mean),scale=NULL,max_range=1)
 
   lambda0 = GP.eigen.value(1000,ker_par[1],ker_par[2],dim)
 
@@ -67,7 +66,7 @@ init_bspbss= function(X,  xgrid, standardize = TRUE,  mask = rep(1,nrow(xgrid)),
     k = choose(tag+dim,dim)
   }
 
-  Psi0 = t( GP.eigen.funcs.fast(xgrid0[mask==1,],tag,ker_par[1],ker_par[2] ) )
+  Psi0 = t( GP.eigen.funcs.fast(coords0,tag,ker_par[1],ker_par[2] ) )
   Psi_tmp = Psi0[1:L,]
 
 
@@ -111,24 +110,12 @@ init_bspbss= function(X,  xgrid, standardize = TRUE,  mask = rep(1,nrow(xgrid)),
   out$init = init
   out$prior = prior
   out$kernel = kernel
-  out$coords = xgrid0
+  out$coords = coords0
   out$X = X
 
   return(out)
 }
 
-
-fn3 = function(para,sampcov,dist0){
-  rho = para[1]
-  nu = para[2]
-  sigma = para[3]
-  n = length(sampcov)
-  out = 0
-  for(i in 1:n){
-    out = out + (sampcov[i] -  matern(dist0[i]/rho,nu))^2
-  }
-  return(out)
-}
 
 
 

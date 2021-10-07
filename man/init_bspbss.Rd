@@ -6,12 +6,10 @@
 \usage{
 init_bspbss(
   X,
-  xgrid,
+  coords,
   standardize = TRUE,
-  mask = rep(1, nrow(xgrid)),
   q = 2,
   dens = 0.5,
-  kernel = "gaussian",
   ker_par = c(0.05, 20),
   num_eigen = 500,
   noise = 0
@@ -20,11 +18,9 @@ init_bspbss(
 \arguments{
 \item{X}{Data matrix with n rows (sample) and p columns (voxel).}
 
-\item{xgrid}{Cordinate matrix with p0 rows (voxel) and d columns (dimension). p0 >= p.}
+\item{coords}{Cordinate matrix with p rows (voxel) and d columns (dimension).}
 
 \item{standardize}{If TRUE, standarize each row of X.}
-
-\item{mask}{Logical vector of length p0, with p elements being equal to 1 and p0-p elements being equal to 0.}
 
 \item{q}{Number of latent sources.}
 
