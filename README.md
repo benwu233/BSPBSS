@@ -94,7 +94,7 @@ levelplot2D(res_sum$S, lim = c(-1.3,1.3), sim$coords)
 
 <img src="man/figures/README-unnamed-chunk-11-1.png" width="100%" />
 
-## NIfTI daata
+## NIfTI data
 
 Install a small pack contains simulated NIfTI images and MNI152
 template.
