@@ -11,7 +11,7 @@ Process.
 
 ## Installation
 
-Install the released version of nlss from Github with:
+Install the released version of BSPBSS from Github with:
 
 ``` r
 devtools::install_github("benwu233/BSPBSS")
@@ -115,7 +115,7 @@ neurobase::ortho2(t1_3mm, y=sim_4d[,,,1])
 
 <img src="man/figures/README-unnamed-chunk-13-1.png" width="100%" />
 
-Conduct BSPBSS (with overspecification of the number of latent sources).
+Conduct BSPBSS.
 
 ``` r
 X = pre_nii(sim_4d,mask)

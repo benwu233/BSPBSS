@@ -23,7 +23,7 @@ Bayesian Spatial Blind Source Separation via Thresholded Gaussian Process.
 
 ## Installation
 
-Install the released version of nlss from Github with:
+Install the released version of BSPBSS from Github with:
 
 ```{r, eval = FALSE}
 devtools::install_github("benwu233/BSPBSS")
@@ -103,7 +103,7 @@ mask = neurobase::readNIfTI2(paste0(data_path,"/sim_4d/mask.nii.gz"))
 neurobase::ortho2(t1_3mm, y=sim_4d[,,,1])
 ```
 
-Conduct BSPBSS (with overspecification of the number of latent sources).
+Conduct BSPBSS.
 ```{r}
 X = pre_nii(sim_4d,mask)
 ini = init_bspbss(X$data, X$coords, dens = 0.5, q = 3, ker_par = c(0.01, 120), num_eigen = 200)
