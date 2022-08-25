@@ -10,14 +10,14 @@ Authors@R: c( person("Ben", "Wu",
               person("Jian", "Kang",
               email = "jiankang@umich.edu",
               role = "aut") )
-Description: Gibbs sampling for Bayesian spatial blind source separation with thresholded Gaussian process priors.
+Description: Gibbs sampling for Bayesian spatial blind source separation with the thresholded Gaussian process prior.
 Depends: R (>= 3.4.0), movMF
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.2.0
 LinkingTo: Rcpp, RcppArmadillo
-Imports: rstiefel, Rcpp, RcppArmadillo, 
+Imports: rstiefel, Rcpp, 
     ica, glmnet, gplots, BayesGPfit, svd, RandomFieldsUtils,
-    neurobase, oro.nifti, gridExtra, ggplot2
+    neurobase, oro.nifti, gridExtra, ggplot2, gtools
 SystemRequirements: GNU make
