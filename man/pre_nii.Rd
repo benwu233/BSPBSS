@@ -7,13 +7,10 @@
 pre_nii(nii, mask)
 }
 \arguments{
-\item{nii_file_list}{A list of NIfTI file(s).}
+\item{nii}{Path to the NIfTI file.}
 
-\item{mask_file}{Path to the mask file.}
-}
-\value{
-
+\item{mask}{Path to the mask file.}
 }
 \description{
-This function transforms NIfTI file(s) into a data matrix.
+This function transforms NIfTI file into a data matrix.
 }

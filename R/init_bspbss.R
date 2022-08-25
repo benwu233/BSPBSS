@@ -3,8 +3,8 @@
 #' for the MCMC algorithm.
 #'
 #' @param X Data matrix with n rows (sample) and p columns (voxel).
-#' @param standardize If TRUE, standarize each row of X.
 #' @param coords Cordinate matrix with p rows (voxel) and d columns (dimension).
+#' @param standardize If TRUE, standarize each row of X.
 #' @param q Number of latent sources.
 #' @param dens The initial density level (between 0 and 1) of the latent sources.
 #' @param ker_par 2-dimensional vector (a,b) with a>0, b>0, specifing the parameters in the modified exponetial squared kernel.
@@ -20,6 +20,9 @@
 #' @importFrom glmnet glmnet
 #' @importFrom svd propack.svd
 #' @import movMF
+#' @import RcppArmadillo
+#' @import gridExtra
+#' @import gtools
 #' @importFrom stats quantile
 #' @importFrom BayesGPfit GP.std.grids
 #' @importFrom BayesGPfit GP.eigen.value
@@ -30,8 +33,6 @@
 #'
 #'
 #' @useDynLib BSPBSS
-#'
-#' @examples
 #'
 init_bspbss= function(X, coords, standardize = TRUE, q = 2, dens = 0.5, ker_par = c(0.05, 20), num_eigen = 500, noise = 0.0 ){
 
@@ -94,8 +95,8 @@ init_bspbss= function(X, coords, standardize = TRUE, q = 2, dens = 0.5, ker_par 
   init$S = S1
   init$zeta = zeta0+1e-10
   init$stepsize_zeta = (zeta0+1e-10) * 0.1
-  #init$zeta_mu = mean(zeta0)
   init$b = b0
+  init$sigma = apply(X - A0%*%S1,2,var)
 
   kernel = list()
   kernel$psi = Psi_tmp

@@ -6,6 +6,11 @@
 
 using namespace Rcpp;
 
+#ifdef RCPP_USE_GLOBAL_ROSTREAM
+Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+#endif
+
 // cal_sumb
 arma::mat cal_sumb(arma::mat& b, arma::mat& psi);
 RcppExport SEXP _BSPBSS_cal_sumb(SEXP bSEXP, SEXP psiSEXP) {
@@ -191,33 +196,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// mcmc_bspbss_pickup_c
-List mcmc_bspbss_pickup_c(arma::mat& X, arma::mat& A, arma::mat& b, arma::vec& sigma, double zeta, double stepsize_zeta, double subsample_n, double subsample_p, List prior, arma::mat& psi, arma::vec& lambda, double epsilon, double lr, double decay, int MClength, int thin, int show_step);
-RcppExport SEXP _BSPBSS_mcmc_bspbss_pickup_c(SEXP XSEXP, SEXP ASEXP, SEXP bSEXP, SEXP sigmaSEXP, SEXP zetaSEXP, SEXP stepsize_zetaSEXP, SEXP subsample_nSEXP, SEXP subsample_pSEXP, SEXP priorSEXP, SEXP psiSEXP, SEXP lambdaSEXP, SEXP epsilonSEXP, SEXP lrSEXP, SEXP decaySEXP, SEXP MClengthSEXP, SEXP thinSEXP, SEXP show_stepSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat& >::type X(XSEXP);
-    Rcpp::traits::input_parameter< arma::mat& >::type A(ASEXP);
-    Rcpp::traits::input_parameter< arma::mat& >::type b(bSEXP);
-    Rcpp::traits::input_parameter< arma::vec& >::type sigma(sigmaSEXP);
-    Rcpp::traits::input_parameter< double >::type zeta(zetaSEXP);
-    Rcpp::traits::input_parameter< double >::type stepsize_zeta(stepsize_zetaSEXP);
-    Rcpp::traits::input_parameter< double >::type subsample_n(subsample_nSEXP);
-    Rcpp::traits::input_parameter< double >::type subsample_p(subsample_pSEXP);
-    Rcpp::traits::input_parameter< List >::type prior(priorSEXP);
-    Rcpp::traits::input_parameter< arma::mat& >::type psi(psiSEXP);
-    Rcpp::traits::input_parameter< arma::vec& >::type lambda(lambdaSEXP);
-    Rcpp::traits::input_parameter< double >::type epsilon(epsilonSEXP);
-    Rcpp::traits::input_parameter< double >::type lr(lrSEXP);
-    Rcpp::traits::input_parameter< double >::type decay(decaySEXP);
-    Rcpp::traits::input_parameter< int >::type MClength(MClengthSEXP);
-    Rcpp::traits::input_parameter< int >::type thin(thinSEXP);
-    Rcpp::traits::input_parameter< int >::type show_step(show_stepSEXP);
-    rcpp_result_gen = Rcpp::wrap(mcmc_bspbss_pickup_c(X, A, b, sigma, zeta, stepsize_zeta, subsample_n, subsample_p, prior, psi, lambda, epsilon, lr, decay, MClength, thin, show_step));
-    return rcpp_result_gen;
-END_RCPP
-}
 // smoos
 NumericMatrix smoos(NumericMatrix S, IntegerMatrix xgrid, double smooth);
 RcppExport SEXP _BSPBSS_smoos(SEXP SSEXP, SEXP xgridSEXP, SEXP smoothSEXP) {
@@ -244,7 +222,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_BSPBSS_GP_update_zeta", (DL_FUNC) &_BSPBSS_GP_update_zeta, 10},
     {"_BSPBSS_loglk", (DL_FUNC) &_BSPBSS_loglk, 4},
     {"_BSPBSS_mcmc_bspbss_c", (DL_FUNC) &_BSPBSS_mcmc_bspbss_c, 18},
-    {"_BSPBSS_mcmc_bspbss_pickup_c", (DL_FUNC) &_BSPBSS_mcmc_bspbss_pickup_c, 17},
     {"_BSPBSS_smoos", (DL_FUNC) &_BSPBSS_smoos, 3},
     {NULL, NULL, 0}
 };

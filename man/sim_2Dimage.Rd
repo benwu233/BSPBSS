@@ -40,6 +40,3 @@ is generated with a von Mises-Fisher distribution with the concentration paramet
 being zero, which means it is uniformly distributed on the sphere. \eqn{\epsilon_i}
 is a i.i.d. Gaussian noise term with 0 mean and user-specified variance.
 }
-\examples{
-
-}

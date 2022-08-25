@@ -3,6 +3,7 @@
 #'
 #' @param res List including MCMC samples, which can be obtained from function \code{mcmc_bspbss}
 #' @param X Original data matrix.
+#' @param kernel List including eigenvalues and eigenfunctions of the kernel, see \code{init_bspbss}.
 #' @param start Start point of the iterations being summarized.
 #' @param end End point of the iterations being summarized.
 #' @param select_prob Lower bound of the posterior inclusion probability required when summarizing
@@ -16,6 +17,7 @@
 #'   \item{zeta}{Estimated zeta.}
 #'   \item{sigma}{Estimated sigma.}
 #'   \item{logLik}{Trace of log-likelihood.}
+#'   \item{Slist}{MCMC samples of S.}
 #' }
 #' @export
 #'

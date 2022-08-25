@@ -11,6 +11,8 @@ sum_mcmc_bspbss(res, X, kernel, start = 1, end = 100, select_prob = 0.8)
 
 \item{X}{Original data matrix.}
 
+\item{kernel}{List including eigenvalues and eigenfunctions of the kernel, see \code{init_bspbss}.}
+
 \item{start}{Start point of the iterations being summarized.}
 
 \item{end}{End point of the iterations being summarized.}
@@ -27,6 +29,7 @@ List that contains the following terms:
   \item{zeta}{Estimated zeta.}
   \item{sigma}{Estimated sigma.}
   \item{logLik}{Trace of log-likelihood.}
+  \item{Slist}{MCMC samples of S.}
 }
 }
 \description{

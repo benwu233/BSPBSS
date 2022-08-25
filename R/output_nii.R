@@ -4,8 +4,9 @@
 #' @param X Data matrix with n rows (sample) and p colums (pixel).
 #' @param nii a reference NIfTI-class object, representing a image with p0 voxels.
 #' @param xgrid Cordinate matrix with p0 rows (voxel) and d columns (dimension). p0 >= p.
-#' @param mask Logical vector of length p0, with p elements being equal to 1 and p0-p elements being equal to 0.
 #' @param file The name of the file to be saved.
+#' @param std If TRUE, standarize each row of X.
+#' @param thres Quantile to threshold each row of X.
 #'
 #' @return
 #' @export
@@ -13,7 +14,6 @@
 #' @importFrom oro.nifti writeNIfTI
 #' @importFrom neurobase copyNIfTIHeader
 #'
-#' @examples
 output_nii = function(X,nii,xgrid, file=NULL, std=TRUE, thres = 0){
 
   if(std){

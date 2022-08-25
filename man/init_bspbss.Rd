@@ -40,6 +40,3 @@ List includes the initial values, priors and eigen functions/eigen values of the
 Generate initial values, set up priors and perform kernel decomposition
 for the MCMC algorithm.
 }
-\examples{
-
-}

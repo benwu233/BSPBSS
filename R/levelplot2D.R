@@ -26,7 +26,7 @@ levelplot2D = function(S, coords, lim = c(min(S),max(S)), xlim=c(0,max(coords[,1
     data0 = rbind(data0, data.frame(x = coords[,1], y = coords[,2], value = S[j,], comp = j) )
   }
 
-  plot =  ggplot(data0,aes(x=x, y=y,fill=value)) +
+  plot =  ggplot(data0,aes(x=data0$x, y=data0$y,fill=data0$value)) +
     geom_tile( ) + xlim(xlim) + ylim(ylim) +
     facet_wrap(~comp, nrow=layout[1],ncol=layout[2]) +
     labs(x = NULL, y = NULL) +

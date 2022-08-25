@@ -32,8 +32,6 @@
 #' @importFrom stats cov rnorm var
 #' @importFrom rstiefel rmf.vector
 #'
-#' @examples
-#'
 sim_2Dimage = function(length = 20,  n = 50, sigma = 2e-3, smooth = 6){
 
 

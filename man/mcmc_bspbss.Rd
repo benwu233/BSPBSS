@@ -24,11 +24,11 @@ mcmc_bspbss(
 \arguments{
 \item{X}{Data matrix with n rows (sample) and p columns (voxel).}
 
-\item{init}{List of initial values, see \code{init_mcmc}.}
+\item{init}{List of initial values, see \code{init_bspbss}.}
 
-\item{prior}{List of priors, see \code{init_mcmc}.}
+\item{prior}{List of priors, see \code{init_bspbss}.}
 
-\item{kernel}{List including eigenvalues and eigenfunctions of the kernel, see \code{init_TGP}.}
+\item{kernel}{List including eigenvalues and eigenfunctions of the kernel, see \code{init_bspbss}.}
 
 \item{n.iter}{Total iterations in MCMC.}
 
@@ -40,14 +40,16 @@ mcmc_bspbss(
 
 \item{ep}{Approximation parameter.}
 
-\item{lr}{Per-batch learning rate.}
+\item{lr}{Per-batch learning rate in SGHMC.}
 
-\item{subsample_n}{Size of a mini-batch for samples.}
+\item{decay}{Decay parameter in SGHMC.}
 
-\item{subsample_p}{Size of a mini-batch for voxels.}
+\item{subsample_n}{Mini-batch size of samples.}
+
+\item{subsample_p}{Mini-batch size of voxels.}
 }
 \value{
-List that contains MCMC samples for: A, b, sigma, zeta and tau.
+List that contains MCMC samples of: A, b, sigma, and zeta.
 }
 \description{
 Performan MCMC algorithm to draw samples from a Bayesian spatial blind source separation

@@ -1,15 +1,14 @@
 #' @title Read a NIfTI file
 #'
-#' @description This function transforms NIfTI file(s) into a data matrix.
+#' @description This function transforms NIfTI file into a data matrix.
 #'
-#' @param nii_file_list A list of NIfTI file(s).
-#' @param mask_file Path to the mask file.
+#' @param nii Path to the NIfTI file.
+#' @param mask Path to the mask file.
 #'
 #' @importFrom oro.nifti readNIfTI
 #' @return
 #' @export
 #'
-#' @examples
 pre_nii = function(nii,mask){
 
   dim_nii = dim(mask)

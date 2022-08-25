@@ -15,10 +15,9 @@ output_nii(X, nii, xgrid, file = NULL, std = TRUE, thres = 0)
 
 \item{file}{The name of the file to be saved.}
 
-\item{mask}{Logical vector of length p0, with p elements being equal to 1 and p0-p elements being equal to 0.}
-}
-\value{
+\item{std}{If TRUE, standarize each row of X.}
 
+\item{thres}{Quantile to threshold each row of X.}
 }
 \description{
 This function saves a data matrix into a NIfTI file.
