@@ -432,8 +432,8 @@ List mcmc_bspbss_c(arma::mat &X, arma::mat &A, arma::mat &b,
     if(itr%show_step==0){
       t1 = std::chrono::system_clock::now();
       t2 = std::chrono::system_clock::to_time_t(t1);
-      std::cout << "iter " << itr << " " << std::ctime(&t2) << std::endl;
-      std::cout << " stepsize_zeta " << stepsize_zeta << " acc_rate_zeta " << count_zeta / 100 << std::endl;
+      Rcpp::Rcout << "iter " << itr << " " << std::ctime(&t2) << "\n";
+      Rcpp::Rcout << " stepsize_zeta " << stepsize_zeta << " acc_rate_zeta " << count_zeta / 100 << "\n";
     }
 
     if(itr < burn_in){

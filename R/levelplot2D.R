@@ -19,14 +19,22 @@ levelplot2D = function(S, coords, lim = c(min(S),max(S)), xlim=c(0,max(coords[,1
                        color = bluered(100),layout = c(1,nrow(S)),file=NULL){
 
   q = nrow(S)
+  p = ncol(S)
 
-  data.list = list()
-  data0 = NULL
+  coordx = NULL
+  coordy = NULL
+  value = NULL
+  comp = NULL
   for(j in 1:q){
-    data0 = rbind(data0, data.frame(x = coords[,1], y = coords[,2], value = S[j,], comp = j) )
+    coordx = c(coordx,coords[,1])
+    coordy = c(coordy,coords[,2])
+    value = c(value,S[j,])
+    comp = c(comp,rep(j,p))
+    #data0 = rbind(data0, data.frame(x = coords[,1], y = coords[,2], value = S[j,], comp = j) )
   }
+  data0 = data.frame(coordx = coordx, coordy = coordy, value = value, comp = comp)
 
-  plot =  ggplot(data0,aes(x=data0$x, y=data0$y,fill=data0$value)) +
+  plot =  ggplot(data0,aes(x=coordx, y=coordy,fill=value)) +
     geom_tile( ) + xlim(xlim) + ylim(ylim) +
     facet_wrap(~comp, nrow=layout[1],ncol=layout[2]) +
     labs(x = NULL, y = NULL) +
