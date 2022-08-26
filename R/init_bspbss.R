@@ -20,7 +20,6 @@
 #' @importFrom glmnet glmnet
 #' @importFrom svd propack.svd
 #' @import movMF
-#' @import RcppArmadillo
 #' @import gridExtra
 #' @import gtools
 #' @importFrom stats quantile
