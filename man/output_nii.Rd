@@ -9,15 +9,18 @@ output_nii(X, nii, xgrid, file = NULL, std = TRUE, thres = 0)
 \arguments{
 \item{X}{Data matrix with n rows (sample) and p colums (pixel).}
 
-\item{nii}{a reference NIfTI-class object, representing a image with p0 voxels.}
+\item{nii}{a reference NIfTI-class object, representing a image with p voxels.}
 
-\item{xgrid}{Cordinate matrix with p0 rows (voxel) and d columns (dimension). p0 >= p.}
+\item{xgrid}{Cordinate matrix with p rows (voxel) and d columns (dimension).}
 
 \item{file}{The name of the file to be saved.}
 
 \item{std}{If TRUE, standarize each row of X.}
 
 \item{thres}{Quantile to threshold each row of X.}
+}
+\value{
+NIfTI-class object.
 }
 \description{
 This function saves a data matrix into a NIfTI file.

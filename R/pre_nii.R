@@ -1,14 +1,14 @@
-#' @title Read a NIfTI file
+#' @title Transforms NIfTI to matrix
 #'
-#' @description This function transforms NIfTI file into a data matrix.
+#' @description This function transforms a NIfTI-class object into a matrix.
 #'
-#' @param nii Path to the NIfTI file.
-#' @param mask Path to the mask file.
+#' @param nii 4D NIfTI-class object with dimensions x,y,z and t. Can be read from NIfTI file with \code{readNIfTI} function from the package \code{oro.nifti}.
+#' @param mask Mask variable, also in NIfTI format.
 #'
 #' @importFrom oro.nifti readNIfTI
-#' @return
-#' @export
 #'
+#' @return List containing the data matrix with t rows and x*y*z colums (voxels), and the coordinates of the voxels.
+#' @export
 pre_nii = function(nii,mask){
 
   dim_nii = dim(mask)

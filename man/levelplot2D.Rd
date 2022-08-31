@@ -32,6 +32,14 @@ levelplot2D(
 
 \item{file}{Name of the file to be saved.}
 }
+\value{
+No return value.
+}
 \description{
 The function plots 2D images for a data matrix.
+}
+\examples{
+sim = sim_2Dimage(length = 30, sigma = 5e-4, n = 30, smooth = 6)
+levelplot2D(sim$S,lim = c(-0.04,0.04), sim$coords)
+
 }

@@ -12,7 +12,7 @@
 #' @param noise Gaussian noise added to the initial latent sources, with mean 0 and standard deviation being noise * sd(S0),
 #' where sd(S0) is the standard deviation of the initial latent sources.
 #'
-#' @return List includes the initial values, priors and eigen functions/eigen values of the kernel.
+#' @return List containing initial values, priors and eigen functions/eigen values of the kernel of the Gaussian process.
 #' @export
 #'
 #' @importFrom Rcpp sourceCpp
@@ -32,6 +32,11 @@
 #'
 #'
 #' @useDynLib BSPBSS
+#'
+#' @examples
+#'
+#' sim = sim_2Dimage(length = 30, sigma = 5e-4, n = 30, smooth = 6)
+#' ini = init_bspbss(sim$X, sim$coords, q = 3, ker_par = c(0.1,50), num_eigen = 50)
 #'
 init_bspbss= function(X, coords, standardize = TRUE, q = 2, dens = 0.5, ker_par = c(0.05, 20), num_eigen = 500, noise = 0.0 ){
 

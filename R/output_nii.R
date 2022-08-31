@@ -2,13 +2,13 @@
 #' @description This function saves a data matrix into a NIfTI file.
 #'
 #' @param X Data matrix with n rows (sample) and p colums (pixel).
-#' @param nii a reference NIfTI-class object, representing a image with p0 voxels.
-#' @param xgrid Cordinate matrix with p0 rows (voxel) and d columns (dimension). p0 >= p.
+#' @param nii a reference NIfTI-class object, representing a image with p voxels.
+#' @param xgrid Cordinate matrix with p rows (voxel) and d columns (dimension).
 #' @param file The name of the file to be saved.
 #' @param std If TRUE, standarize each row of X.
 #' @param thres Quantile to threshold each row of X.
 #'
-#' @return
+#' @return NIfTI-class object.
 #' @export
 #'
 #' @importFrom oro.nifti writeNIfTI

@@ -34,9 +34,15 @@ init_bspbss(
 where sd(S0) is the standard deviation of the initial latent sources.}
 }
 \value{
-List includes the initial values, priors and eigen functions/eigen values of the kernel.
+List containing initial values, priors and eigen functions/eigen values of the kernel of the Gaussian process.
 }
 \description{
 Generate initial values, set up priors and perform kernel decomposition
 for the MCMC algorithm.
+}
+\examples{
+
+sim = sim_2Dimage(length = 30, sigma = 5e-4, n = 30, smooth = 6)
+ini = init_bspbss(sim$X, sim$coords, q = 3, ker_par = c(0.1,50), num_eigen = 50)
+
 }

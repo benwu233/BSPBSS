@@ -10,10 +10,16 @@
 #' @param color Colorbar.
 #' @param file Name of the file to be saved.
 #'
+#' @return No return value.
+#'
 #' @import gplots
 #' @import ggplot2
 #'
 #' @export
+#'
+#' @examples
+#' sim = sim_2Dimage(length = 30, sigma = 5e-4, n = 30, smooth = 6)
+#' levelplot2D(sim$S,lim = c(-0.04,0.04), sim$coords)
 #'
 levelplot2D = function(S, coords, lim = c(min(S),max(S)), xlim=c(0,max(coords[,1])), ylim=c(0,max(coords[,2])),
                        color = bluered(100),layout = c(1,nrow(S)),file=NULL){
