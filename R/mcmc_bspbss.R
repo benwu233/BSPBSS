@@ -14,6 +14,7 @@
 #' @param ep Approximation parameter.
 #' @param lr Per-batch learning rate in SGHMC.
 #' @param decay Decay parameter in SGHMC.
+#' @param num_leapfrog Number of leapfrog steps in SGHMC.
 #' @param subsample_n Mini-batch size of samples.
 #' @param subsample_p Mini-batch size of voxels.
 #'
@@ -27,7 +28,7 @@
 #' res = mcmc_bspbss(ini$X,ini$init,ini$prior,ini$kernel,n.iter=200,n.burn_in=100,thin=10,show_step=50)
 #'
 mcmc_bspbss = function(X,init,prior,kernel,n.iter,n.burn_in,thin=1,show_step,
-                       ep = 0.01,lr = 0.01, decay = 0.01,
+                       ep = 0.01,lr = 0.01, decay = 0.01, num_leapfrog = 5,
                        subsample_n = 0.5,subsample_p=0.5){
 
   sigma = init$sigma * 1
@@ -48,7 +49,7 @@ mcmc_bspbss = function(X,init,prior,kernel,n.iter,n.burn_in,thin=1,show_step,
   lr0 = lr / nrow(X) / ncol(X)
 
   out = mcmc_bspbss_c(X, A, b, sigma, zeta, stepsize_zeta, subsample_n, subsample_p, prior, kernel$psi, kernel$lambda,
-                    ep,lr0, decay, n.iter,n.burn_in,thin, show_step)
+                    ep,lr0, decay, num_leapfrog, n.iter,n.burn_in,thin, show_step)
 
   return(out)
 }

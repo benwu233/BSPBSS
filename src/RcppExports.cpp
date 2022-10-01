@@ -169,8 +169,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // mcmc_bspbss_c
-List mcmc_bspbss_c(arma::mat& X, arma::mat& A, arma::mat& b, arma::vec& sigma, double zeta, double stepsize_zeta, double subsample_n, double subsample_p, List prior, arma::mat& psi, arma::vec& lambda, double epsilon, double lr, double decay, int MClength, int burn_in, int thin, int show_step);
-RcppExport SEXP _BSPBSS_mcmc_bspbss_c(SEXP XSEXP, SEXP ASEXP, SEXP bSEXP, SEXP sigmaSEXP, SEXP zetaSEXP, SEXP stepsize_zetaSEXP, SEXP subsample_nSEXP, SEXP subsample_pSEXP, SEXP priorSEXP, SEXP psiSEXP, SEXP lambdaSEXP, SEXP epsilonSEXP, SEXP lrSEXP, SEXP decaySEXP, SEXP MClengthSEXP, SEXP burn_inSEXP, SEXP thinSEXP, SEXP show_stepSEXP) {
+List mcmc_bspbss_c(arma::mat& X, arma::mat& A, arma::mat& b, arma::vec& sigma, double zeta, double stepsize_zeta, double subsample_n, double subsample_p, List prior, arma::mat& psi, arma::vec& lambda, double epsilon, double lr, double decay, int num_leapfrog, int MClength, int burn_in, int thin, int show_step);
+RcppExport SEXP _BSPBSS_mcmc_bspbss_c(SEXP XSEXP, SEXP ASEXP, SEXP bSEXP, SEXP sigmaSEXP, SEXP zetaSEXP, SEXP stepsize_zetaSEXP, SEXP subsample_nSEXP, SEXP subsample_pSEXP, SEXP priorSEXP, SEXP psiSEXP, SEXP lambdaSEXP, SEXP epsilonSEXP, SEXP lrSEXP, SEXP decaySEXP, SEXP num_leapfrogSEXP, SEXP MClengthSEXP, SEXP burn_inSEXP, SEXP thinSEXP, SEXP show_stepSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -188,11 +188,12 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type epsilon(epsilonSEXP);
     Rcpp::traits::input_parameter< double >::type lr(lrSEXP);
     Rcpp::traits::input_parameter< double >::type decay(decaySEXP);
+    Rcpp::traits::input_parameter< int >::type num_leapfrog(num_leapfrogSEXP);
     Rcpp::traits::input_parameter< int >::type MClength(MClengthSEXP);
     Rcpp::traits::input_parameter< int >::type burn_in(burn_inSEXP);
     Rcpp::traits::input_parameter< int >::type thin(thinSEXP);
     Rcpp::traits::input_parameter< int >::type show_step(show_stepSEXP);
-    rcpp_result_gen = Rcpp::wrap(mcmc_bspbss_c(X, A, b, sigma, zeta, stepsize_zeta, subsample_n, subsample_p, prior, psi, lambda, epsilon, lr, decay, MClength, burn_in, thin, show_step));
+    rcpp_result_gen = Rcpp::wrap(mcmc_bspbss_c(X, A, b, sigma, zeta, stepsize_zeta, subsample_n, subsample_p, prior, psi, lambda, epsilon, lr, decay, num_leapfrog, MClength, burn_in, thin, show_step));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -221,7 +222,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_BSPBSS_log_p_zeta_Gaussian", (DL_FUNC) &_BSPBSS_log_p_zeta_Gaussian, 3},
     {"_BSPBSS_GP_update_zeta", (DL_FUNC) &_BSPBSS_GP_update_zeta, 10},
     {"_BSPBSS_loglk", (DL_FUNC) &_BSPBSS_loglk, 4},
-    {"_BSPBSS_mcmc_bspbss_c", (DL_FUNC) &_BSPBSS_mcmc_bspbss_c, 18},
+    {"_BSPBSS_mcmc_bspbss_c", (DL_FUNC) &_BSPBSS_mcmc_bspbss_c, 19},
     {"_BSPBSS_smoos", (DL_FUNC) &_BSPBSS_smoos, 3},
     {NULL, NULL, 0}
 };

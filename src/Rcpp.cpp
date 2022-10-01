@@ -160,7 +160,7 @@ void GP_update_b_SGHMC(arma::mat &b, arma::mat &X, arma::mat &A, arma::mat &S, a
       for(int l = 0; l < L; l++){
         loc = j+l*q;
         b(j,l) += nu[loc];
-        nu[loc] += eta * dl(j,l) - alpha * nu[loc] + rnorm0[loc];
+        nu[loc] += eta * dl(j,l)  - alpha * nu[loc] + rnorm0[loc];
       }
     }
 
@@ -218,9 +218,13 @@ void GP_update_A(arma::mat &A, arma::vec prior, arma::mat &X_core, arma::mat X,
     tmp = A.col(j) * sumSS.row(j);
     par1 = ( sumXS.col(j) - sumAS.col(j) + tmp.col(j) ) * sqrtn + rho + 1e-50;
 
+
+
     for( int i = 0; i < n; i++){
       par[i] = par1(i,0);
     }
+
+    //Rcpp::Rcout << par[1] << "\n";
 
     newA_j = as<arma::vec>( rrmovMF(1,par,1) ) * sqrtn;
     A.col(j) = newA_j;
@@ -352,7 +356,7 @@ double loglk(arma::mat &X, arma::mat &A, arma::mat &S, arma::vec &sigma){
 List mcmc_bspbss_c(arma::mat &X, arma::mat &A, arma::mat &b,
                   arma::vec &sigma, double zeta, double stepsize_zeta, double subsample_n, double subsample_p,
                   List prior, arma::mat &psi, arma::vec &lambda, double epsilon, double lr, double decay,
-                  int MClength, int burn_in, int thin, int show_step){
+                  int num_leapfrog, int MClength, int burn_in, int thin, int show_step){
 
 
   int p = X.n_cols;
@@ -402,7 +406,7 @@ List mcmc_bspbss_c(arma::mat &X, arma::mat &A, arma::mat &b,
 
     GP_update_sigma(sigma, X_core, prior_sigma);
 
-    GP_update_b_SGHMC(b, X, A,S, sigma, lambda, psi, epsilon, sumb, zeta, X_core,lr,decay,sizep,sizen,10,itr,nu);
+    GP_update_b_SGHMC(b, X, A,S, sigma, lambda, psi, epsilon, sumb, zeta, X_core,lr,decay,sizep,sizen,num_leapfrog,itr,nu);
 
     GP_update_zeta(zeta, sumb, X_core, sigma, X, A, S, stepsize_zeta, prior_zeta, count_zeta);
 
@@ -433,7 +437,7 @@ List mcmc_bspbss_c(arma::mat &X, arma::mat &A, arma::mat &b,
       t1 = std::chrono::system_clock::now();
       t2 = std::chrono::system_clock::to_time_t(t1);
       Rcpp::Rcout << "iter " << itr << " " << std::ctime(&t2) << "\n";
-      Rcpp::Rcout << " stepsize_zeta " << stepsize_zeta << " acc_rate_zeta " << count_zeta / 100 << "\n";
+      Rcpp::Rcout << " stepsize_zeta " << stepsize_zeta << " accp_rate_zeta " << count_zeta / 100 << "\n";
     }
 
     if(itr < burn_in){

@@ -56,7 +56,13 @@ ini = init_bspbss(sim$X, sim$coords, q = 3, ker_par = c(0.1,50), num_eigen = 50)
 and run!
 
 ``` r
-res = mcmc_bspbss(ini$X,ini$init,ini$prior,ini$kernel,n.iter=2000,n.burn_in=1000,thin=10,show_step=100)
+res = mcmc_bspbss(ini$X,ini$init,ini$prior,ini$kernel,n.iter=2000,n.burn_in=1000,thin=10,show_step=1000)
+#> iter 1000 Sat Oct  1 22:12:33 2022
+#> 
+#>  stepsize_zeta 0.0167947 accp_rate_zeta 0.34
+#> iter 2000 Sat Oct  1 22:12:36 2022
+#> 
+#>  stepsize_zeta 0.0167947 accp_rate_zeta 0.37
 ```
 
 Then the results can be summarized by
@@ -87,7 +93,13 @@ results.
 
 ``` r
 ini = init_bspbss(sim$X, sim$coords, q = 5, ker_par = c(0.1,50), num_eigen = 50)
-res = mcmc_bspbss(ini$X,ini$init,ini$prior,ini$kernel,n.iter=2000,n.burn_in=1000,thin=10,show_step=100)
+res = mcmc_bspbss(ini$X,ini$init,ini$prior,ini$kernel, n.iter=2000,n.burn_in=1000,thin=10,show_step=1000)
+#> iter 1000 Sat Oct  1 22:12:40 2022
+#> 
+#>  stepsize_zeta 0.0104649 accp_rate_zeta 0.35
+#> iter 2000 Sat Oct  1 22:12:43 2022
+#> 
+#>  stepsize_zeta 0.0104649 accp_rate_zeta 0.43
 res_sum = sum_mcmc_bspbss(res, ini$X, ini$kernel, start = 101, end = 200, select_p = 0.5)
 levelplot2D(res_sum$S, lim = c(-1.3,1.3), sim$coords)
 ```
@@ -120,8 +132,17 @@ Conduct BSPBSS.
 ``` r
 X = pre_nii(sim_4d,mask)
 ini = init_bspbss(X$data, X$coords, dens = 0.5, q = 3, ker_par = c(0.01, 120), num_eigen = 200)
-res = mcmc_bspbss(ini$X,ini$init,ini$prior,ini$kernel,n.iter=4000,n.burn_in=2000,thin=10,show_step=100,subsample_p=0.005)
-res_sum = sum_mcmc_bspbss(res, ini$X, ini$kernel, start = 201, end = 400, select_p = 0.5)
+res = mcmc_bspbss(ini$X,ini$init,ini$prior,ini$kernel,n.iter=3000,n.burn_in=2000,thin=10,show_step=1000,subsample_p=0.005)
+#> iter 1000 Sat Oct  1 22:14:38 2022
+#> 
+#>  stepsize_zeta 0.00296575 accp_rate_zeta 0.42
+#> iter 2000 Sat Oct  1 22:16:28 2022
+#> 
+#>  stepsize_zeta 0.00769239 accp_rate_zeta 0.42
+#> iter 3000 Sat Oct  1 22:18:19 2022
+#> 
+#>  stepsize_zeta 0.00769239 accp_rate_zeta 0.41
+res_sum = sum_mcmc_bspbss(res, ini$X, ini$kernel, start = 201, end = 300, select_p = 0.5)
 ```
 
 Output:

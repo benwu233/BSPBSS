@@ -41,8 +41,8 @@ loglk <- function(X, A, S, sigma) {
     .Call('_BSPBSS_loglk', PACKAGE = 'BSPBSS', X, A, S, sigma)
 }
 
-mcmc_bspbss_c <- function(X, A, b, sigma, zeta, stepsize_zeta, subsample_n, subsample_p, prior, psi, lambda, epsilon, lr, decay, MClength, burn_in, thin, show_step) {
-    .Call('_BSPBSS_mcmc_bspbss_c', PACKAGE = 'BSPBSS', X, A, b, sigma, zeta, stepsize_zeta, subsample_n, subsample_p, prior, psi, lambda, epsilon, lr, decay, MClength, burn_in, thin, show_step)
+mcmc_bspbss_c <- function(X, A, b, sigma, zeta, stepsize_zeta, subsample_n, subsample_p, prior, psi, lambda, epsilon, lr, decay, num_leapfrog, MClength, burn_in, thin, show_step) {
+    .Call('_BSPBSS_mcmc_bspbss_c', PACKAGE = 'BSPBSS', X, A, b, sigma, zeta, stepsize_zeta, subsample_n, subsample_p, prior, psi, lambda, epsilon, lr, decay, num_leapfrog, MClength, burn_in, thin, show_step)
 }
 
 smoos <- function(S, xgrid, smooth) {

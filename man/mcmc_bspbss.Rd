@@ -17,6 +17,7 @@ mcmc_bspbss(
   ep = 0.01,
   lr = 0.01,
   decay = 0.01,
+  num_leapfrog = 5,
   subsample_n = 0.5,
   subsample_p = 0.5
 )
@@ -43,6 +44,8 @@ mcmc_bspbss(
 \item{lr}{Per-batch learning rate in SGHMC.}
 
 \item{decay}{Decay parameter in SGHMC.}
+
+\item{num_leapfrog}{Number of leapfrog steps in SGHMC.}
 
 \item{subsample_n}{Mini-batch size of samples.}
 
