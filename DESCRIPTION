@@ -1,6 +1,6 @@
 Package: BSPBSS
 Title: Bayesian Spatial Blind Source Separation
-Version: 1.0.3
+Version: 1.0.4
 Authors@R: c( person("Ben", "Wu", 
               email = "wuben@ruc.edu.cn", 
               role = c("aut", "cre")),
