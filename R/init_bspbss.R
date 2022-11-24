@@ -4,7 +4,8 @@
 #'
 #' @param X Data matrix with n rows (sample) and p columns (voxel).
 #' @param coords Cordinate matrix with p rows (voxel) and d columns (dimension).
-#' @param standardize If TRUE, standarize each row of X.
+#' @param rescale If TRUE, rows of X are rescaled to have unit variance.
+#' @param center If TRUE, rows of X are mean-centered.
 #' @param q Number of latent sources.
 #' @param dens The initial density level (between 0 and 1) of the latent sources.
 #' @param ker_par 2-dimensional vector (a,b) with a>0, b>0, specifing the parameters in the modified exponetial squared kernel.
@@ -38,17 +39,21 @@
 #' sim = sim_2Dimage(length = 30, sigma = 5e-4, n = 30, smooth = 6)
 #' ini = init_bspbss(sim$X, sim$coords, q = 3, ker_par = c(0.1,50), num_eigen = 50)
 #'
-init_bspbss= function(X, coords, standardize = TRUE, q = 2, dens = 0.5, ker_par = c(0.05, 20), num_eigen = 500, noise = 0.0 ){
+init_bspbss= function(X, coords, rescale = TRUE, center = FALSE, q = 2, dens = 0.5, ker_par = c(0.05, 20), num_eigen = 500, noise = 0.0 ){
 
   dim = ncol(coords)
   n = nrow(X)
   p = ncol(X)
 
-  if(standardize){
+  if(center){
+    X = X - apply(X, 1, mean)
+  }
+
+  if(rescale){
     for(i in 1:n){
       sdx = sd(X[i,])
       if(sdx!=0){
-        X[i,] = (X[i,]  )/sdx
+        X[i,] = (X[i,])/sdx
       }
     }
   }

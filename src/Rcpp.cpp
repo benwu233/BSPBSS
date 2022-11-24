@@ -406,9 +406,9 @@ List mcmc_bspbss_c(arma::mat &X, arma::mat &A, arma::mat &b,
 
     GP_update_sigma(sigma, X_core, prior_sigma);
 
-    GP_update_b_SGHMC(b, X, A,S, sigma, lambda, psi, epsilon, sumb, zeta, X_core,lr,decay,sizep,sizen,num_leapfrog,itr,nu);
-
     GP_update_zeta(zeta, sumb, X_core, sigma, X, A, S, stepsize_zeta, prior_zeta, count_zeta);
+
+    GP_update_b_SGHMC(b, X, A,S, sigma, lambda, psi, epsilon, sumb, zeta, X_core,lr,decay,sizep,sizen,num_leapfrog,itr,nu);
 
 
     if( ( (itr-burn_in)%thin==0 ) ){
@@ -437,7 +437,8 @@ List mcmc_bspbss_c(arma::mat &X, arma::mat &A, arma::mat &b,
       t1 = std::chrono::system_clock::now();
       t2 = std::chrono::system_clock::to_time_t(t1);
       Rcpp::Rcout << "iter " << itr << " " << std::ctime(&t2) << "\n";
-      Rcpp::Rcout << " stepsize_zeta " << stepsize_zeta << " accp_rate_zeta " << count_zeta / 100 << "\n";
+      //Rcpp::Rcout << " stepsize_zeta " << stepsize_zeta << " accp_rate_zeta " << count_zeta / 100 << "\n";
+      Rcpp::Rcout << "zeta" << zeta << " stepsize_zeta " << stepsize_zeta << " accp_rate_zeta " << count_zeta / 100 << "\n";
     }
 
     if(itr < burn_in){

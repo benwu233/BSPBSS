@@ -23,9 +23,18 @@
 #'
 #' @examples
 #'
-#' sim = sim_2Dimage(length = 30, sigma = 5e-4, n = 30, smooth = 6)
-#' ini = init_bspbss(sim$X, sim$coords, q = 3, ker_par = c(0.1,50), num_eigen = 50)
-#' res = mcmc_bspbss(ini$X,ini$init,ini$prior,ini$kernel,n.iter=200,n.burn_in=100,thin=10,show_step=50)
+#' sim = sim_2Dimage(length = 30,
+#'                   sigma = 5e-4,
+#'                   n = 30,
+#'                   smooth = 6)
+#' ini = init_bspbss(sim$X, sim$coords,
+#'                   q = 3,
+#'                   ker_par = c(0.1,50),
+#'                   num_eigen = 50)
+#' res = mcmc_bspbss(ini$X,ini$init,
+#'                   ini$prior,ini$kernel,
+#'                   n.iter=200,n.burn_in=100,
+#'                   thin=10,show_step=50)
 #'
 mcmc_bspbss = function(X,init,prior,kernel,n.iter,n.burn_in,thin=1,show_step,
                        ep = 0.01,lr = 0.01, decay = 0.01, num_leapfrog = 5,
