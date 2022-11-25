@@ -27,7 +27,6 @@
 #' @importFrom BayesGPfit GP.std.grids
 #' @importFrom BayesGPfit GP.eigen.value
 #' @importFrom BayesGPfit GP.eigen.funcs.fast
-#' @importFrom RandomFieldsUtils matern
 #' @importFrom stats kmeans
 #' @importFrom stats optim
 #'

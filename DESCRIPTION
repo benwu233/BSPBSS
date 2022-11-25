@@ -1,6 +1,6 @@
 Package: BSPBSS
 Title: Bayesian Spatial Blind Source Separation
-Version: 1.0.4
+Version: 1.0.5
 Authors@R: c( person("Ben", "Wu", 
               email = "wuben@ruc.edu.cn", 
               role = c("aut", "cre")),
@@ -18,7 +18,7 @@ LazyData: true
 RoxygenNote: 7.2.1
 LinkingTo: Rcpp, RcppArmadillo
 Imports: rstiefel, Rcpp, 
-    ica, glmnet, gplots, BayesGPfit, svd, RandomFieldsUtils,
+    ica, glmnet, gplots, BayesGPfit, svd, 
     neurobase, oro.nifti, gridExtra, ggplot2, gtools
 SystemRequirements: GNU make
 Suggests: 

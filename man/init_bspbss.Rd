@@ -21,6 +21,10 @@ init_bspbss(
 
 \item{coords}{Cordinate matrix with p rows (voxel) and d columns (dimension).}
 
+\item{rescale}{If TRUE, rows of X are rescaled to have unit variance.}
+
+\item{center}{If TRUE, rows of X are mean-centered.}
+
 \item{q}{Number of latent sources.}
 
 \item{dens}{The initial density level (between 0 and 1) of the latent sources.}
@@ -31,8 +35,6 @@ init_bspbss(
 
 \item{noise}{Gaussian noise added to the initial latent sources, with mean 0 and standard deviation being noise * sd(S0),
 where sd(S0) is the standard deviation of the initial latent sources.}
-
-\item{standardize}{If TRUE, standarize each row of X.}
 }
 \value{
 List containing initial values, priors and eigen functions/eigen values of the kernel of the Gaussian process.
